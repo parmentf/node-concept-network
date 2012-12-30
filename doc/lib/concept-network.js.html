@@ -504,6 +504,9 @@ Also remove the node from the <em>labelIndex</em>.</p>
         <td class="code highlight"><div class="highlight"><pre>  <span class="nx">decrementLink</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">linkId</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">];</span>
     <span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">removeLink</span><span class="p">(</span><span class="nx">linkId</span><span class="p">);</span>
+    <span class="p">}</span>
     <span class="k">return</span> <span class="nx">link</span><span class="p">;</span>
   <span class="p">},</span></pre></div>
         </td>

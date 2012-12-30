@@ -125,6 +125,13 @@ describe('ConceptNetwork', function () {
       cn.decrementLink('1_2');
       assert.equal(cn.link['1_2'].coOcc, 1);
     });
+
+    it('should remove a link with a coOcc value of 0', function () {
+      assert.equal(cn.link['1_2'].coOcc, 1);
+      cn.decrementLink('1_2');
+      assert.equal(typeof cn.link['1_2'], "undefined");
+    });
+
   });
 
   describe("#removeLink", function () {
