@@ -83,7 +83,32 @@ describe('ConceptNetwork', function () {
 
   });
 
+  describe("#addLink", function () {
 
+    before(function () {
+      cn = new ConceptNetwork();
+      cn.addNode("Node 1");
+      cn.addNode("Node 2");
+      cn.addNode("Node 3");
+    });
+
+    it('should return an object', function () {
+      var link = cn.addLink(1, 2);
+      assert.equal(typeof link, "object");
+      assert.equal(link.coOcc, 1);
+    });
+
+    it('should increment coOcc', function () {
+      var link = cn.addLink(1, 2);
+      assert.equal(link.coOcc, 2);
+    });
+
+    it('should create a good fromIndex', function () {
+      cn.addLink(1, 3);
+      assert.deepEqual(cn.fromIndex[1], [ '1_2', '1_3']);
+    });
+
+  });
 
 });
 
