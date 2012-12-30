@@ -224,13 +224,70 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
     <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should remove even a node with occ value of 2&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
       <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
       <span class="nx">cn</span><span class="p">.</span><span class="nx">removeNode</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">).</span><span class="nx">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;undefined&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 
   <span class="p">});</span>
 
-  
+  <span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;#addLink&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 3&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return an object&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">link</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should increment coOcc&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should create a good fromIndex&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">fromIndex</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span> <span class="s1">&#39;1_2&#39;</span><span class="p">,</span> <span class="s1">&#39;1_3&#39;</span><span class="p">]);</span>
+    <span class="p">});</span>
+
+  <span class="p">});</span>
+
+  <span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;#decrementLink&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should decrement a coOcc value of 2&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="s1">&#39;1_2&#39;</span><span class="p">].</span><span class="nx">coOcc</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">decrementLink</span><span class="p">(</span><span class="s1">&#39;1_2&#39;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="s1">&#39;1_2&#39;</span><span class="p">].</span><span class="nx">coOcc</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;#removeLink&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should remove the link&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="s1">&#39;1_2&#39;</span><span class="p">],</span> <span class="p">{</span> <span class="nx">fromId</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">toId</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">coOcc</span><span class="o">:</span> <span class="mi">1</span> <span class="p">});</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">removeLink</span><span class="p">(</span><span class="s1">&#39;1_2&#39;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="s1">&#39;1_2&#39;</span><span class="p">],</span> <span class="s2">&quot;undefined&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
 <span class="p">});</span>
 
 <span class="kd">var</span> <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>

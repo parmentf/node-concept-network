@@ -110,6 +110,38 @@ describe('ConceptNetwork', function () {
 
   });
 
+  describe("#decrementLink", function () {
+
+    before(function () {
+      cn = new ConceptNetwork();
+      cn.addNode("Node 1");
+      cn.addNode("Node 2");
+      cn.addLink(1, 2);
+      cn.addLink(1, 2);
+    });
+
+    it('should decrement a coOcc value of 2', function () {
+      assert.equal(cn.link['1_2'].coOcc, 2);
+      cn.decrementLink('1_2');
+      assert.equal(cn.link['1_2'].coOcc, 1);
+    });
+  });
+
+  describe("#removeLink", function () {
+
+    before(function () {
+      cn = new ConceptNetwork();
+      cn.addNode("Node 1");
+      cn.addNode("Node 2");
+      cn.addLink(1, 2);
+    });
+
+    it('should remove the link', function () {
+      assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
+      cn.removeLink('1_2');
+      assert.equal(typeof cn.link['1_2'], "undefined");
+    });
+  });
 });
 
 var cn = new ConceptNetwork();
