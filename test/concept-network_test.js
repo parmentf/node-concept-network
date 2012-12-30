@@ -142,54 +142,49 @@ describe('ConceptNetwork', function () {
       assert.equal(typeof cn.link['1_2'], "undefined");
     });
   });
+
+  describe('#getters', function () {
+
+    before(function () {
+      cn = new ConceptNetwork();
+      cn.addNode("Node 1");
+      cn.addNode("Node 2");
+      cn.addNode("Node 3");
+      cn.addLink(1, 2);
+      cn.addLink(1, 3);
+    });
+
+    describe('#getNode', function () {
+
+      it('should get the second node', function () {
+        var node = cn.getNode('Node 2');
+        assert.equal(node.id, 2);
+      });
+
+      it('should return null when the node does not exist', function () {
+        var node = cn.getNode('Nonexistent');
+        assert.equal(node, null);
+      });
+
+    });
+
+    describe('#getLink', function () {
+
+      it('should get the link', function () {
+        var link = cn.getLink(1, 2);
+        assert.equal(link.fromId, 1);
+        assert.equal(link.toId, 2);
+        assert.equal(link.coOcc, 1);
+      });
+
+      it('should return null when the node does not exist', function () {
+        var link = cn.getLink(1, 100);
+        assert.equal(link, null);
+      });
+
+    });
+
+
+  });
 });
 
-var cn = new ConceptNetwork();
-
-var res = {
-  send: function (code, msg) {
-    console.log(code + ':');
-    console.log(msg);
-  }
-};
-var req = { uriParams: { label: 'Test' } };
-
-console.log('**** TESTS *****');
-console.log('---- POST ----');
-
-cn.postNode(req, res);
-cn.postNode(req, res);
-
-req = { uriParams: { label: 'Chuck Norris' } };
-cn.postNode(req, res);
-
-req = { uriParams: { label: 'World' } };
-cn.postNode(req, res);
-
-var reqL = { uriParams: { from_id: 1, to_id: 2 } };
-cn.postLink(reqL, res);
-
-reqL = { uriParams: { from_id: 2, to_id: 3 } };
-cn.postLink(reqL, res);
-
-console.log(cn);
-
-console.log('---- GET ----');
-
-req.uriParams.id = 2;
-cn.getNode(req, res);
-
-console.log('---- POST / DEL node ----');
-req.uriParams.label = 'World';
-req.uriParams.del = true;
-
-cn.postNode(req, res);
-
-console.log(cn);
-
-console.log('---- POST / DEL link ----');
-req.uriParams.del = false;
-
-cn.postNode(req, res);
-
-console.log(cn);
