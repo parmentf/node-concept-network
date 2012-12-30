@@ -202,8 +202,27 @@ describe('ConceptNetwork', function () {
         assert.deepEqual(fromLinks, []);
       });
 
+    });
+
+    describe('#getNodeToLinks', function () {
+
+      it('should get all links to node 2', function () {
+        var toLinks = cn.getNodeToLinks(2);
+        assert.deepEqual(toLinks, ['1_2']);
+      });
+
+      it('should get all links to node 3', function () {
+        var toLinks = cn.getNodeToLinks(3);
+        assert.deepEqual(toLinks, ['1_3', '2_3']);
+      });
+
+      it('should get no links to node 1', function () {
+        var toLinks = cn.getNodeToLinks(1);
+        assert.deepEqual(toLinks, []);
+      });
 
     });
-  });
-});
 
+  });
+
+});

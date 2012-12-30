@@ -348,9 +348,29 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">fromLinks</span><span class="p">,</span> <span class="p">[]);</span>
       <span class="p">});</span>
 
+    <span class="p">});</span>
+
+    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#getNodeToLinks&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get all links to node 2&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">toLinks</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getNodeToLinks</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">toLinks</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;1_2&#39;</span><span class="p">]);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get all links to node 3&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">toLinks</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getNodeToLinks</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">toLinks</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;1_3&#39;</span><span class="p">,</span> <span class="s1">&#39;2_3&#39;</span><span class="p">]);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get no links to node 1&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">toLinks</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getNodeToLinks</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">toLinks</span><span class="p">,</span> <span class="p">[]);</span>
+      <span class="p">});</span>
 
     <span class="p">});</span>
+
   <span class="p">});</span>
+
 <span class="p">});</span>
 </pre></div>
         </td>
