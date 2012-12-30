@@ -119,70 +119,8 @@ Licensed under the MIT license.</p>
   <span class="k">this</span><span class="p">.</span><span class="nx">nodeLastId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">labelIndex</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// label -&gt; id</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">fromIndex</span>  <span class="o">=</span> <span class="p">{};</span> <span class="c1">// fromId -&gt; linkId</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">toIndex</span>    <span class="o">=</span> <span class="p">{};</span> <span class="c1">// toId   -&gt; linkId</span></pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
-</div>
-<p>POST /link/:from_id/:to_id</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>  <span class="k">this</span><span class="p">.</span><span class="nx">postLink</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">postLink</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">fromId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">from_id</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">toId</span>   <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">to_id</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">modif</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">del</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">linkId</span> <span class="o">=</span> <span class="nx">fromId</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nx">toId</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">httpCode</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span></pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
-</div>
-<p>link created</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>      <span class="nx">httpCode</span> <span class="o">=</span> <span class="mi">201</span><span class="p">;</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">fromId</span> <span class="o">:</span> <span class="nx">fromId</span><span class="p">,</span>
-        <span class="nx">toId</span>   <span class="o">:</span> <span class="nx">toId</span><span class="p">,</span>
-        <span class="nx">coOcc</span>  <span class="o">:</span> <span class="mi">1</span>
-      <span class="p">};</span></pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
-</div>
-<p>fromIndex</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">fromIndex</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">fromId</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">fromIndex</span><span class="p">[</span><span class="nx">fromId</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
-      <span class="p">}</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">fromIndex</span><span class="p">[</span><span class="nx">fromId</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">linkId</span><span class="p">);</span></pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
-</div>
-<p>toIndex</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">toIndex</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">toId</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">toIndex</span><span class="p">[</span><span class="nx">toId</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
-      <span class="p">}</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">toIndex</span><span class="p">[</span><span class="nx">toId</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">linkId</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">httpCode</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">].</span><span class="nx">coOcc</span> <span class="o">+=</span> <span class="nx">modif</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">httpCode</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]);</span>
-  <span class="p">};</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">toIndex</span>    <span class="o">=</span> <span class="p">{};</span> <span class="c1">// toId   -&gt; linkId</span>
+
 <span class="p">}</span></pre></div>
         </td>
       </tr>
@@ -235,7 +173,7 @@ Licensed under the MIT license.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
 <p>node already exists</p>
         </td>
@@ -292,7 +230,7 @@ Licensed under the MIT license.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
 </div>
 <p>node already exists</p>
         </td>
@@ -345,7 +283,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
 <p>remove links from id</p>
         </td>
@@ -359,7 +297,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
 </div>
 <p>remove links to id</p>
         </td>
@@ -376,7 +314,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
 </div>
 <p>remove from the labelIndex and from the node array.</p>
         </td>
@@ -427,7 +365,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
 </div>
 <p>Link does not exist yet</p>
         </td>
@@ -442,7 +380,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>fromIndex</p>
         </td>
@@ -455,7 +393,7 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>toIndex</p>
         </td>
