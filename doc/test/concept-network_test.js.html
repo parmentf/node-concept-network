@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>concept-network_test.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = '../', thisFile = 'test/concept-network_test.js', defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+  <script src="../fileSearch.js"></script>
+  <link rel="stylesheet" href="../fileSearch.css" />
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#tests-for-concept-network-module">Tests for concept-network module</a>
+      </div>
+      <div class="heading h2">
+        <a href="#required-libraries">Required libraries</a>
+      </div>
+      <div class="heading h2">
+        <a href="#conceptnetwork">ConceptNetwork</a>
+      </div>
+      <div class="heading h3">
+        <a href="#constructor">Constructor</a>
+      </div>
+      <div class="heading h3">
+        <a href="#addnode">addNode</a>
+      </div>
+      <div class="heading h3">
+        <a href="#decrementnode">decrementNode</a>
+      </div>
+      <div class="heading h3">
+        <a href="#removenode">removeNode</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>concept-network_test.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>jshint node:true, maxlen:80, curly: true, eqeqeq: true, immed: true,
+latedef: true, newcap: true, noarg: true, sub: true, undef: true,
+eqnull: true, laxcomma: true, indent: 2, white:true   </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre> <span class="cm">/*global describe:true, it:true, before:true */</span>
+<span class="s2">&quot;use strict&quot;</span><span class="p">;</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="tests-for-concept-network-module">
+  <h1>
+    <a href="#tests-for-concept-network-module" class="pilcrow">&#182;</a>
+    Tests for concept-network module
+  </h1>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="required-libraries">
+  <h2>
+    <a href="#required-libraries" class="pilcrow">&#182;</a>
+    Required libraries
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">assert</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;assert&#39;</span><span class="p">);</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Module to test</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">ConceptNetwork</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../lib/concept-network&#39;</span><span class="p">);</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="conceptnetwork">
+  <h2>
+    <a href="#conceptnetwork" class="pilcrow">&#182;</a>
+    ConceptNetwork
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;ConceptNetwork&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="constructor">
+  <h3>
+    <a href="#constructor" class="pilcrow">&#182;</a>
+    Constructor
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#Constructor&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should not throw an exception&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">doesNotThrow</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="p">},</span> <span class="kc">null</span><span class="p">,</span> <span class="s2">&quot;unexpected error&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="kd">var</span> <span class="nx">cn</span><span class="p">;</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="addnode">
+  <h3>
+    <a href="#addnode" class="pilcrow">&#182;</a>
+    addNode
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#addNode&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return an object&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Chuck Norris&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">label</span><span class="p">,</span> <span class="s2">&quot;Chuck Norris&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should increment occ&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Chuck Norris&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should increment nodeLastId&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">).</span><span class="nx">length</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should increment a previous node too&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Chuck Norris&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="decrementnode">
+  <h3>
+    <a href="#decrementnode" class="pilcrow">&#182;</a>
+    decrementNode
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#decrementNode&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should decrement a node with occ of 3&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">decrementNode</span><span class="p">(</span><span class="s2">&quot;Chuck Norris&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should remove a node with an occ of 1&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">decrementNode</span><span class="p">(</span><span class="s2">&quot;World&quot;</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">});</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="removenode">
+  <h3>
+    <a href="#removenode" class="pilcrow">&#182;</a>
+    removeNode
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#removeNode&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should remove even a node with occ value of 2&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">occ</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">removeNode</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">).</span><span class="nx">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">});</span>
+
+  <span class="p">});</span>
+
+  
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+
+<span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">send</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">code</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">code</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">uriParams</span><span class="o">:</span> <span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Test&#39;</span> <span class="p">}</span> <span class="p">};</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;**** TESTS *****&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;---- POST ----&#39;</span><span class="p">);</span>
+
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">uriParams</span><span class="o">:</span> <span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;Chuck Norris&#39;</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">req</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">uriParams</span><span class="o">:</span> <span class="p">{</span> <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;World&#39;</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">reqL</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">uriParams</span><span class="o">:</span> <span class="p">{</span> <span class="nx">from_id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">to_id</span><span class="o">:</span> <span class="mi">2</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postLink</span><span class="p">(</span><span class="nx">reqL</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">reqL</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">uriParams</span><span class="o">:</span> <span class="p">{</span> <span class="nx">from_id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">to_id</span><span class="o">:</span> <span class="mi">3</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postLink</span><span class="p">(</span><span class="nx">reqL</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;---- GET ----&#39;</span><span class="p">);</span>
+
+<span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="nx">cn</span><span class="p">.</span><span class="nx">getNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;---- POST / DEL node ----&#39;</span><span class="p">);</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">label</span> <span class="o">=</span> <span class="s1">&#39;World&#39;</span><span class="p">;</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">del</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;---- POST / DEL link ----&#39;</span><span class="p">);</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">uriParams</span><span class="p">.</span><span class="nx">del</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+<span class="nx">cn</span><span class="p">.</span><span class="nx">postNode</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

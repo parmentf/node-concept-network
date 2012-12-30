@@ -1,0 +1,44 @@
+{
+  "name": "concept-network",
+  "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/francois/node-concept-network",
+  "author": {
+    "name": "François Parmentier",
+    "email": "francois.parmentier@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/francois/node-concept-network.git"
+  },
+  "bugs": {
+    "url": "https://github.com/francois/node-concept-network/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/francois/node-concept-network/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/concept-network",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "debug": "0.7.x"
+  },
+  "devDependencies": {
+    "mocha": "1.7.x",
+    "docker": "0.2.x",
+    "jshint": "0.9.x"
+  },
+  "keywords": [
+    "graph",
+    "weighted",
+    "propagation"
+  ],
+  "readmeFilename": "README.md"
+}
