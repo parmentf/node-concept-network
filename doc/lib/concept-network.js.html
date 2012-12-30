@@ -50,6 +50,9 @@
       <div class="heading h3">
         <a href="#getlink">getLink</a>
       </div>
+      <div class="heading h3">
+        <a href="#getnodefromlinks">getNodeFromLinks</a>
+      </div>
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -615,6 +618,44 @@ Also remove the node from the <em>labelIndex</em>.</p>
       <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">];</span>
+  <span class="p">},</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="getnodefromlinks">
+  <h3>
+    <a href="#getnodefromlinks" class="pilcrow">&#182;</a>
+    getNodeFromLinks
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>Get the array of links ids for all links going from node <em>id</em>.</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">id</span>
+      <span class="dox_type">Number</span>
+      <span>Identifier of the node.</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Array</span>
+      <span>[linkId1, linkId2] or []</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">getNodeFromLinks</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">fromLinks</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">fromIndex</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">fromLinks</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">[];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">fromLinks</span><span class="p">;</span>
   <span class="p">}</span>
 
 <span class="p">};</span>

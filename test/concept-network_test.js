@@ -152,6 +152,7 @@ describe('ConceptNetwork', function () {
       cn.addNode("Node 3");
       cn.addLink(1, 2);
       cn.addLink(1, 3);
+      cn.addLink(2, 3);
     });
 
     describe('#getNode', function () {
@@ -184,7 +185,25 @@ describe('ConceptNetwork', function () {
 
     });
 
+    describe('#getNodeFromLinks', function () {
 
+      it('should get all links from node 2', function () {
+        var fromLinks = cn.getNodeFromLinks(2);
+        assert.deepEqual(fromLinks, ['2_3']);
+      });
+
+      it('should get all links from node 1', function () {
+        var fromLinks = cn.getNodeFromLinks(1);
+        assert.deepEqual(fromLinks, ['1_2', '1_3']);
+      });
+
+      it('should get no links from node 3', function () {
+        var fromLinks = cn.getNodeFromLinks(3);
+        assert.deepEqual(fromLinks, []);
+      });
+
+
+    });
   });
 });
 
