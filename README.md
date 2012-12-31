@@ -6,7 +6,7 @@ Concept Network is weighted directed graph, in which activation values are propa
 Install the module with: `npm install concept-network`
 
 ```javascript
-var ConceptNetwork = require('concept-network');
+var ConceptNetwork = require('concept-network').ConceptNetwork;
 var cn = new ConceptNetwork();
 var node1 = cn.addNode("ECTOR");
 var node2 = cn.addNode("knows");

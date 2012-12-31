@@ -10,7 +10,7 @@
 var assert = require('assert');
 
 // Module to test
-var ConceptNetwork = require('../lib/concept-network');
+var ConceptNetwork = require('../lib/concept-network').ConceptNetwork;
 
 // ## ConceptNetwork
 describe('ConceptNetwork', function () {
@@ -106,6 +106,13 @@ describe('ConceptNetwork', function () {
     it('should create a good fromIndex', function () {
       cn.addLink(1, 3);
       assert.deepEqual(cn.fromIndex[1], [ '1_2', '1_3']);
+    });
+
+    it('should not accept non number ids', function () {
+      var link = cn.addLink(1, "berf");
+      assert.equal(link instanceof Error, true);
+      link = cn.addLink("barf", 2);
+      assert.equal(link instanceof Error, true);
     });
 
   });
