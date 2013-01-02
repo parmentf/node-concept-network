@@ -108,9 +108,9 @@ describe('ConceptNetworkState', function () {
 
     it('should deactivate node without afferent links', function () {
       cns.activate(node1.id);
-      assert.equal(cns.activationValue[node1.id], 100);
+      assert.equal(cns.getActivationValue(node1.id), 100);
       cns.propagate();
-      assert.equal(cns.activationValue[node1.id] < 100, true);
+      assert.equal(cns.getActivationValue(node1.id) < 100, true);
     });
 
   });
