@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>concept-network-state.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = '../', thisFile = 'lib/concept-network-state.js', defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+  <script src="../fileSearch.js"></script>
+  <link rel="stylesheet" href="../fileSearch.css" />
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h2">
+        <a href="#conceptnetworkstate-s-constructor">ConceptNetworkState's constructor</a>
+      </div>
+      <div class="heading h2">
+        <a href="#conceptnetworkstate-s-methods">ConceptNetworkState's methods</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>concept-network-state.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>jshint node:true, maxlen:80, curly: true, eqeqeq: true, immed: true,
+latedef: true, newcap: true, noarg: true, sub: true, undef: true,
+eqnull: true, laxcomma: true, indent: 2, white:true   </p>
+  </div>
+  <div class="body">
+  </div>
+</div>
+
+<div class="dox">
+  <div class="summary"><p>concept-network-state
+<a href='https://github.com/francois/node-concept-network'>https://github.com/francois/node-concept-network</a></p>
+  </div>
+  <div class="body"><p>Copyright (c) 2012 François Parmentier
+Licensed under the MIT license.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">ConceptNetwork</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../index&#39;</span><span class="p">).</span><span class="nx">ConceptNetwork</span><span class="p">;</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="conceptnetworkstate-s-constructor">
+  <h2>
+    <a href="#conceptnetworkstate-s-constructor" class="pilcrow">&#182;</a>
+    ConceptNetworkState's constructor
+  </h2>
+</div>
+
+  </div>
+  <div class="body"><p>The state of a concept network is bound to a user.</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">cn</span>
+      <span class="dox_type">ConceptNetwork</span>
+      <span>The concept network of which it is a state.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="k">this</span> <span class="k">instanceof</span> <span class="nx">ConceptNetworkState</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="k">this</span><span class="p">.</span><span class="nx">activationValue</span> <span class="o">=</span> <span class="p">[];</span>  <span class="c1">// nodeId -&gt; activation value</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">cn</span> <span class="k">instanceof</span> <span class="nx">ConceptNetwork</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Parameter is required&quot;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="conceptnetworkstate-s-methods">
+  <h2>
+    <a href="#conceptnetworkstate-s-methods" class="pilcrow">&#182;</a>
+    ConceptNetworkState's methods
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="nx">ConceptNetworkState</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">ConceptNetworkState</span> <span class="o">=</span> <span class="nx">ConceptNetworkState</span><span class="p">;</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

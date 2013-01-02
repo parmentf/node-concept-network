@@ -46,6 +46,9 @@
 <span class="nb">test</span>:
   @NODE_ENV<span class="o">=</span><span class="nb">test</span> ./node_modules/.bin/mocha
 
+<span class="nb">test</span>-s:
+  @NODE_ENV<span class="o">=</span><span class="nb">test</span> ./node_modules/.bin/mocha --reporter spec
+
 <span class="nb">test</span>-w:
   @NODE_ENV<span class="o">=</span><span class="nb">test</span> ./node_modules/.bin/mocha <span class="se">\</span>
     --growl <span class="se">\</span>
