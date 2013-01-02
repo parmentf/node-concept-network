@@ -1,7 +1,7 @@
 /*jshint node:true, maxlen:80, curly: true, eqeqeq: true, immed: true,
  latedef: true, newcap: true, noarg: true, sub: true, undef: true,
  eqnull: true, laxcomma: true, indent: 2, white:true */
- /*global describe:true, it:true, before:true */
+ /*global describe:true, it:true, before:true, beforeEach:true */
 "use strict";
 
 // # Tests for concept-network-state module
@@ -33,8 +33,86 @@ describe('ConceptNetworkState', function () {
       }, null, "unexpected error");
     });
 
+  });
+
+  describe('#activate', function () {
+
+    var cn, cns, node1;
+    before(function () {
+      cn = new ConceptNetwork();
+      cns = new ConceptNetworkState(cn);
+      node1 = cn.addNode("Node 1");
+    });
+
+    it('should put the node activation to 100', function () {
+      cns.activate(node1.id);
+      assert.equal(cns.nodeState[node1.id].activationValue, 100);
+    });
 
   });
 
+  describe('#getters', function () {
+
+    var cn, cns, node1, node2;
+
+    describe('##getActivationValue', function () {
+
+      before(function () {
+        cn = new ConceptNetwork();
+        cns = new ConceptNetworkState(cn);
+        node1 = cn.addNode("Node 1");
+        node2 = cn.addNode("Node 2");
+        cns.activate(node1.id);
+      });
+
+      it('should get a zero activation value', function () {
+        assert.deepEqual(cns.getActivationValue(node2.id), 0);
+      });
+
+      it('should get a 100 activation value', function () {
+        assert.deepEqual(cns.getActivationValue(node1.id), 100);
+      });
+    });
+
+    describe('##getOldActivationValue', function () {
+
+      before(function () {
+        cn = new ConceptNetwork();
+        cns = new ConceptNetworkState(cn);
+        node1 = cn.addNode("Node 1");
+        node2 = cn.addNode("Node 2");
+        cns.activate(node1.id);
+        cns.propagate();
+      });
+
+      it('should get a zero activation value', function () {
+        assert.deepEqual(cns.getOldActivationValue(node2.id), 0);
+      });
+
+      it('should get a 100 activation value', function () {
+        console.log(cns.nodeState);
+        assert.deepEqual(cns.getOldActivationValue(node1.id), 100);
+      });
+    });
+
+  });
+
+  describe('#propagate', function () {
+
+    var cn, cns, node1;
+    before(function () {
+      cn = new ConceptNetwork();
+      cns = new ConceptNetworkState(cn);
+      node1 = cn.addNode("Node 1");
+    });
+
+    it('should deactivate node without afferent links', function () {
+      cns.activate(node1.id);
+      assert.equal(cns.activationValue[node1.id], 100);
+      cns.propagate();
+      assert.equal(cns.activationValue[node1.id] < 100, true);
+    });
+
+  });
 
 });
