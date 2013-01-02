@@ -186,14 +186,14 @@ describe('ConceptNetwork', function () {
     describe('#getLink', function () {
 
       it('should get the link', function () {
-        var link = cn.getLink(1, 2);
+        var link = cn.getLink('1_2');
         assert.equal(link.fromId, 1);
         assert.equal(link.toId, 2);
         assert.equal(link.coOcc, 1);
       });
 
       it('should return null when the node does not exist', function () {
-        var link = cn.getLink(1, 100);
+        var link = cn.getLink('1_100');
         assert.equal(link, null);
       });
 
