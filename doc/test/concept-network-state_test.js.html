@@ -58,7 +58,7 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre> <span class="cm">/*global describe:true, it:true, before:true */</span>
+        <td class="code highlight"><div class="highlight"><pre> <span class="cm">/*global describe:true, it:true, before:true, beforeEach:true */</span>
 <span class="s2">&quot;use strict&quot;</span><span class="p">;</span></pre></div>
         </td>
       </tr>
@@ -139,9 +139,124 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
       <span class="p">},</span> <span class="kc">null</span><span class="p">,</span> <span class="s2">&quot;unexpected error&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 
+  <span class="p">});</span>
+
+  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#activate&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">;</span>
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+      <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should put the node activation to 100&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cns</span><span class="p">.</span><span class="nx">activate</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">activationValue</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+    <span class="p">});</span>
 
   <span class="p">});</span>
 
+  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#getters&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">,</span> <span class="nx">node2</span><span class="p">;</span>
+
+    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;##getActivationValue&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+        <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+        <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+        <span class="nx">node2</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">activate</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get a zero activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get a 100 activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">100</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;##getOldActivationValue&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+        <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+        <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+        <span class="nx">node2</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">activate</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">propagate</span><span class="p">();</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get a zero activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getOldActivationValue</span><span class="p">(</span><span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get a 100 activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getOldActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">100</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+
+  <span class="p">});</span>
+
+  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#setters&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">,</span> <span class="nx">node2</span><span class="p">;</span>
+
+    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;##setActivationValue&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+        <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+        <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+        <span class="nx">node2</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should set a zero activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should set a 75 activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">75</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">75</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#propagate&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">,</span> <span class="nx">node2</span><span class="p">;</span>
+    <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+      <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+      <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+      <span class="nx">node2</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 2&quot;</span><span class="p">);</span>
+      <span class="nx">cn</span><span class="p">.</span><span class="nx">addLink</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should deactivate node without afferent links&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">cns</span><span class="p">.</span><span class="nx">activate</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">100</span><span class="p">);</span>
+      <span class="nx">cns</span><span class="p">.</span><span class="nx">propagate</span><span class="p">();</span>
+      <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="p">});</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>it('should activate node 2', function () {
+  console.log(cns.nodeState);
+  assert.equal(cns.getActivationValue(node2.id) > 0, true);
+});</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="p">});</span>
 
 <span class="p">});</span>
 </pre></div>

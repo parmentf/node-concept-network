@@ -90,20 +90,46 @@ describe('ConceptNetworkState', function () {
       });
 
       it('should get a 100 activation value', function () {
-        console.log(cns.nodeState);
         assert.deepEqual(cns.getOldActivationValue(node1.id), 100);
       });
     });
 
   });
 
+  describe('#setters', function () {
+
+    var cn, cns, node1, node2;
+
+    describe('##setActivationValue', function () {
+
+      before(function () {
+        cn = new ConceptNetwork();
+        cns = new ConceptNetworkState(cn);
+        node1 = cn.addNode("Node 1");
+        node2 = cn.addNode("Node 2");
+      });
+
+      it('should set a zero activation value', function () {
+        cns.setActivationValue(node2.id, 0);
+        assert.deepEqual(cns.getActivationValue(node2.id), 0);
+      });
+
+      it('should set a 75 activation value', function () {
+        cns.setActivationValue(node1.id, 75);
+        assert.deepEqual(cns.getActivationValue(node1.id), 75);
+      });
+    });
+  });
+
   describe('#propagate', function () {
 
-    var cn, cns, node1;
+    var cn, cns, node1, node2;
     before(function () {
       cn = new ConceptNetwork();
       cns = new ConceptNetworkState(cn);
       node1 = cn.addNode("Node 1");
+      node2 = cn.addNode("Node 2");
+      cn.addLink(node1.id, node2.id);
     });
 
     it('should deactivate node without afferent links', function () {
@@ -112,6 +138,11 @@ describe('ConceptNetworkState', function () {
       cns.propagate();
       assert.equal(cns.getActivationValue(node1.id) < 100, true);
     });
+
+    // it('should activate node 2', function () {
+    //   console.log(cns.nodeState);
+    //   assert.equal(cns.getActivationValue(node2.id) > 0, true);
+    // });
 
   });
 
