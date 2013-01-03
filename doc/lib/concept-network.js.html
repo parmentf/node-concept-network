@@ -544,26 +544,20 @@ Also remove the node from the <em>labelIndex</em>.</p>
   <div class="details">
     <div class="dox_tag_title">Params</div>
     <div class="dox_tag_detail">
-      <span class="dox_tag_name">fromId</span>
-      <span class="dox_type">Number</span>
-      <span>Identifier of the afferent node</span>
-    </div>
-    <div class="dox_tag_detail">
-      <span class="dox_tag_name">toId</span>
-      <span class="dox_type">Number</span>
-      <span>Identifier of the efferent node</span>
+      <span class="dox_tag_name">linkId</span>
+      <span class="dox_type">string</span>
+      <span>Identifier of the link</span>
     </div>
     <div class="dox_tag_title">Returns</div>
     <div class="dox_tag_detail">
       <span class="dox_tag_name"></span>
       <span class="dox_type">Object</span>
-      <span>the added link {fromId, toId, coOcc}</span>
+      <span>the found link {fromId, toId, coOcc}</span>
     </div>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">getLink</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">fromId</span><span class="p">,</span> <span class="nx">toId</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">linkId</span> <span class="o">=</span> <span class="nx">fromId</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nx">toId</span><span class="p">;</span>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">getLink</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">linkId</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
     <span class="p">}</span>

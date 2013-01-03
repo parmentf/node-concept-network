@@ -118,6 +118,7 @@ describe('ConceptNetworkState', function () {
         cns.setActivationValue(node1.id, 75);
         assert.deepEqual(cns.getActivationValue(node1.id), 75);
       });
+
     });
   });
 
@@ -139,10 +140,9 @@ describe('ConceptNetworkState', function () {
       assert.equal(cns.getActivationValue(node1.id) < 100, true);
     });
 
-    // it('should activate node 2', function () {
-    //   console.log(cns.nodeState);
-    //   assert.equal(cns.getActivationValue(node2.id) > 0, true);
-    // });
+    it('should activate node 2', function () {
+      assert.equal(cns.getActivationValue(node2.id) > 0, true);
+    });
 
   });
 

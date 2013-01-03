@@ -81,6 +81,8 @@ Licensed under the MIT license.</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre><span class="s2">&quot;use strict&quot;</span><span class="p">;</span>
 
+<span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">)(</span><span class="s1">&#39;concept-network-state&#39;</span><span class="p">);</span>
+
 <span class="kd">var</span> <span class="nx">ConceptNetwork</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../index&#39;</span><span class="p">).</span><span class="nx">ConceptNetwork</span><span class="p">;</span></pre></div>
         </td>
       </tr>
@@ -256,6 +258,9 @@ this.age = []; // nodeId -> age</p>
 </div>
         </td>
         <td class="code highlight"><div class="highlight"><pre>  <span class="nx">setActivationValue</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">nodeId</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;this.nodeState&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">);</span>
+    <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;nodeId&#39;</span><span class="p">,</span> <span class="nx">nodeId</span><span class="p">);</span>
+    <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="nx">activationValue</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
@@ -265,7 +270,19 @@ this.age = []; // nodeId -> age</p>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">].</span><span class="nx">activationValue</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
-    <span class="p">}</span>    
+    <span class="p">}</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>Reactivate non-activated nodes.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">];</span>
+    <span class="p">}</span>
   <span class="p">},</span></pre></div>
         </td>
       </tr>
@@ -345,30 +362,10 @@ this.age = []; // nodeId -> age</p>
 
 <p>Get the nodes influenced by others</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre>    <span class="k">for</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+        <td class="code highlight"><div class="highlight"><pre>    <span class="k">for</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">ov</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getOldActivationValue</span><span class="p">(</span><span class="nx">nodeId</span><span class="p">);</span>
-      <span class="kd">var</span> <span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">getNodeToLinks</span><span class="p">(</span><span class="nx">nodeId</span><span class="p">);</span></pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
-</div>
-<p>for all outgoing links</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre>      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">linkIndex</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">linkId</span> <span class="o">=</span> <span class="nx">links</span><span class="p">[</span><span class="nx">linkIndex</span><span class="p">];</span>
-        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="nx">linkId</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">infl</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span>
-                    <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="nx">infl</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">ov</span> <span class="o">*</span> <span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span><span class="p">;</span>
-        <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">=</span> <span class="nx">infl</span><span class="p">;</span>
-        <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span>
-                              <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">linkId</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span></pre></div>
+      <span class="kd">var</span> <span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">getNodeFromLinks</span><span class="p">(</span><span class="nx">nodeId</span><span class="p">);</span>
+      <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;links&#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">);</span></pre></div>
         </td>
       </tr>
       <tr>
@@ -376,10 +373,40 @@ this.age = []; // nodeId -> age</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
 </div>
+<p>for all outgoing links</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">linkIndex</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;linkIndex&#39;</span><span class="p">,</span> <span class="nx">linkIndex</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">linkId</span> <span class="o">=</span> <span class="nx">links</span><span class="p">[</span><span class="nx">linkIndex</span><span class="p">];</span>
+        <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;linkId&#39;</span><span class="p">,</span> <span class="nx">linkId</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="nx">linkId</span><span class="p">);</span>
+        <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">,</span> <span class="nx">link</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">nodeToId</span> <span class="o">=</span> <span class="nx">link</span><span class="p">.</span><span class="nx">toId</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">infl</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span>
+                    <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nx">infl</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="nx">ov</span> <span class="o">*</span> <span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span><span class="p">;</span>
+        <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">=</span> <span class="nx">infl</span><span class="p">;</span>
+        <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">&quot;undefined&quot;</span> <span class="o">?</span>
+                              <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nx">influenceNb</span><span class="p">[</span><span class="nx">nodeToId</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;influenceNb&#39;</span><span class="p">,</span> <span class="nx">influenceNb</span><span class="p">);</span>
+    <span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;influenceValue&#39;</span><span class="p">,</span> <span class="nx">influenceValue</span><span class="p">);</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
 <p>For all the nodes in the state</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre>    <span class="k">for</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">)</span> <span class="p">{</span>
+        <td class="code highlight"><div class="highlight"><pre>    <span class="k">for</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">nodeState</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">];</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">nodeState</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">nodeState</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">activationValue</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">oldActivationValue</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span> <span class="mi">0</span> <span class="p">};</span>
+      <span class="p">}</span>
       <span class="kd">var</span> <span class="nx">decay</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
       <span class="kd">var</span> <span class="nx">memoryPerf</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
       <span class="kd">var</span> <span class="nx">minusAge</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">exp</span><span class="p">(</span><span class="o">-</span><span class="nx">nodeState</span><span class="p">.</span><span class="nx">age</span> <span class="o">/</span> <span class="nx">memoryPerf</span><span class="p">))</span> <span class="o">-</span> <span class="mi">100</span><span class="p">;</span>
@@ -389,7 +416,7 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>If this node is not influenced at all</p>
         </td>
@@ -404,9 +431,9 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
-<p>If this node receive influence</p>
+<p>If this node receives influence</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre>      <span class="k">else</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">influence</span> <span class="o">=</span> <span class="nx">influenceValue</span><span class="p">[</span><span class="nx">nodeId</span><span class="p">];</span>
@@ -417,9 +444,9 @@ this.age = []; // nodeId -> age</p>
                              <span class="nx">decay</span> <span class="o">*</span> <span class="nx">nodeState</span><span class="p">.</span><span class="nx">oldActivationValue</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span>
                              <span class="nx">influence</span> <span class="o">-</span>
                              <span class="nx">minusAge</span><span class="p">;</span>
-        <span class="nx">newActivationValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">newActivationValue</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-        <span class="nx">newActivationValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">newActivationValue</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
       <span class="p">}</span>
+      <span class="nx">newActivationValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">newActivationValue</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="nx">newActivationValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">newActivationValue</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">nodeId</span><span class="p">,</span> <span class="nx">newActivationValue</span><span class="p">);</span>
     <span class="p">}</span>
   <span class="p">}</span>

@@ -332,14 +332,14 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
     <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#getLink&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
       <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get the link&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="s1">&#39;1_2&#39;</span><span class="p">);</span>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">fromId</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">toId</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">.</span><span class="nx">coOcc</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
       <span class="p">});</span>
 
       <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return null when the node does not exist&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">getLink</span><span class="p">(</span><span class="s1">&#39;1_100&#39;</span><span class="p">);</span>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">link</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
       <span class="p">});</span>
 
