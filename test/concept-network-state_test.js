@@ -123,6 +123,68 @@ describe('ConceptNetworkState', function () {
       });
     });
 
+    describe('##getActivatedTypedNodes', function () {
+
+      before(function () {
+        cn = new ConceptNetwork();
+        cns = new ConceptNetworkState(cn);
+        node1 = cn.addNode("Node 1");
+        node2 = cn.addNode("sNode 2");
+        node3 = cn.addNode("tNode 3");
+      });
+
+      it('should return an empty array', function () {
+        assert.deepEqual(cns.getActivatedTypedNodes(), []);
+      });
+
+      it('should return one-node-array', function () {
+        cns.setActivationValue(node1.id, 100);
+        var result = cns.getActivatedTypedNodes();
+        assert.deepEqual(result,
+          [{"node": {"id": 1, "label": "Node 1", "occ": 1},
+            "activationValue": 100}]);
+      });
+
+      it('should return two-nodes-array', function () {
+        cns.setActivationValue(node2.id, 95);
+        var result = cns.getActivatedTypedNodes();
+        assert.deepEqual(result,
+          [{"node": {"id": 1, "label": "Node 1", "occ": 1},
+            "activationValue": 100},
+           {"node": {"id": 2, "label": "sNode 2", "occ": 1},
+            "activationValue": 95}
+          ]);
+      });
+
+      it('should return one-node-array of type s', function () {
+        cns.setActivationValue(node2.id, 95);
+        var result = cns.getActivatedTypedNodes('s');
+        assert.deepEqual(result,
+          [{"node": {"id": 2, "label": "sNode 2", "occ": 1},
+            "activationValue": 95}
+          ]);
+      });
+
+      it('should return one-node-array where threshold = 96', function () {
+        cns.setActivationValue(node1.id, 100);
+        var result = cns.getActivatedTypedNodes('', 96);
+        assert.deepEqual(result,
+          [{"node": {"id": 1, "label": "Node 1", "occ": 1},
+            "activationValue": 100}]);
+      });
+
+    });
+
+
+
+      /*(self, cn, typeNames, threshold=90):
+        """Get the activated nodes of cn.
+
+        The returned nodes must be in the list of typeNames, and
+        have an activation value greater than threshold
+
+        Return a list of tuples (node,activation value)"""')*/
+
   });
 
   describe('#setters', function () {
