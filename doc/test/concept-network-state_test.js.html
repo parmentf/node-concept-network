@@ -159,7 +159,7 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
 
   <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;#getters&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
-    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">,</span> <span class="nx">node2</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">cn</span><span class="p">,</span> <span class="nx">cns</span><span class="p">,</span> <span class="nx">node1</span><span class="p">,</span> <span class="nx">node2</span><span class="p">,</span> <span class="nx">node3</span><span class="p">;</span>
 
     <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;##getActivationValue&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
@@ -197,6 +197,28 @@ eqnull: true, laxcomma: true, indent: 2, white:true   </p>
 
       <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get a 100 activation value&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="nx">assert</span><span class="p">.</span><span class="nx">deepEqual</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getOldActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">),</span> <span class="mi">100</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;##getMaximumActivationValue&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+
+      <span class="nx">before</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetwork</span><span class="p">();</span>
+        <span class="nx">cns</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ConceptNetworkState</span><span class="p">(</span><span class="nx">cn</span><span class="p">);</span>
+        <span class="nx">node1</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;Node 1&quot;</span><span class="p">);</span>
+        <span class="nx">node2</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;sNode 2&quot;</span><span class="p">);</span>
+        <span class="nx">node3</span> <span class="o">=</span> <span class="nx">cn</span><span class="p">.</span><span class="nx">addNode</span><span class="p">(</span><span class="s2">&quot;tNode 3&quot;</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return 0 when no node is activated&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getMaximumActivationValue</span><span class="p">(),</span> <span class="mi">0</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should get the maximum activation value for any token&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">node1</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">75</span><span class="p">);</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">node2</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">70</span><span class="p">);</span>
+        <span class="nx">cns</span><span class="p">.</span><span class="nx">setActivationValue</span><span class="p">(</span><span class="nx">node3</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
+        <span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">cns</span><span class="p">.</span><span class="nx">getMaximumActivationValue</span><span class="p">(),</span> <span class="mi">75</span><span class="p">);</span>
       <span class="p">});</span>
     <span class="p">});</span>
 

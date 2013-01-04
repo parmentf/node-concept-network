@@ -53,7 +53,7 @@ describe('ConceptNetworkState', function () {
 
   describe('#getters', function () {
 
-    var cn, cns, node1, node2;
+    var cn, cns, node1, node2, node3;
 
     describe('##getActivationValue', function () {
 
@@ -91,6 +91,28 @@ describe('ConceptNetworkState', function () {
 
       it('should get a 100 activation value', function () {
         assert.deepEqual(cns.getOldActivationValue(node1.id), 100);
+      });
+    });
+
+    describe('##getMaximumActivationValue', function () {
+
+      before(function () {
+        cn = new ConceptNetwork();
+        cns = new ConceptNetworkState(cn);
+        node1 = cn.addNode("Node 1");
+        node2 = cn.addNode("sNode 2");
+        node3 = cn.addNode("tNode 3");
+      });
+
+      it('should return 0 when no node is activated', function () {
+        assert.equal(cns.getMaximumActivationValue(), 0);
+      });
+
+      it('should get the maximum activation value for any token', function () {
+        cns.setActivationValue(node1.id, 75);
+        cns.setActivationValue(node2.id, 70);
+        cns.setActivationValue(node3.id, 50);
+        assert.equal(cns.getMaximumActivationValue(), 75);
       });
     });
 
