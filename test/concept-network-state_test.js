@@ -114,6 +114,13 @@ describe('ConceptNetworkState', function () {
         cns.setActivationValue(node3.id, 50);
         assert.equal(cns.getMaximumActivationValue(), 75);
       });
+
+      it('should get the maximum activation value for t tokens', function () {
+        cns.setActivationValue(node1.id, 75);
+        cns.setActivationValue(node2.id, 70);
+        cns.setActivationValue(node3.id, 50);
+        assert.equal(cns.getMaximumActivationValue('s'), 70);
+      });
     });
 
   });
