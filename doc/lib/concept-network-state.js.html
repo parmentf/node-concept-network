@@ -42,6 +42,9 @@
         <a href="#getmaximumactivationvalue">getMaximumActivationValue</a>
       </div>
       <div class="heading h3">
+        <a href="#getactivatedtypednodes">getActivatedTypedNodes</a>
+      </div>
+      <div class="heading h3">
         <a href="#propagate">propagate</a>
       </div>
       <div class="heading h4">
@@ -369,12 +372,65 @@ this.age = []; // nodeId -> age</p>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
       <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">getNode</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">label</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">filter</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">label</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">filter</span><span class="p">))</span> <span class="p">{</span>
           <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">max</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">activationValue</span><span class="p">);</span>
         <span class="p">}</span>
       <span class="p">}</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
+  <span class="p">},</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="getactivatedtypednodes">
+  <h3>
+    <a href="#getactivatedtypednodes" class="pilcrow">&#182;</a>
+    getActivatedTypedNodes
+  </h3>
+</div>
+
+  </div>
+  <div class="body"><p>Get the activated nodes of ConceptNetwork</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">filter</span>
+      <span class="dox_type">string</span>
+      <span>beginning of the node label to
+                       take into account</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">threshold</span>
+      <span class="dox_type">Number</span>
+      <span>(default: 90)</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span class="dox_type">Array</span>
+      <span>array of { node, activationValue }</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nx">getActivatedTypedNodes</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">filter</span><span class="p">,</span> <span class="nx">threshold</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">threshold</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">threshold</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">filter</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="nx">filter</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">id</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodeState</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">cn</span><span class="p">.</span><span class="nx">node</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">activationValue</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getActivationValue</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">label</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="nx">filter</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">activationValue</span> <span class="o">&gt;</span> <span class="nx">threshold</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">array</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span><span class="nx">node</span><span class="o">:</span> <span class="nx">node</span><span class="p">,</span> <span class="nx">activationValue</span><span class="o">:</span> <span class="nx">activationValue</span><span class="p">});</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">array</span><span class="p">;</span>
   <span class="p">},</span></pre></div>
         </td>
       </tr>
@@ -424,7 +480,7 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
 </div>
 <p>for all outgoing links</p>
         </td>
@@ -451,7 +507,7 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
 </div>
 <p>For all the nodes in the state</p>
         </td>
@@ -469,7 +525,7 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
 </div>
 <p>If this node is not influenced at all</p>
         </td>
@@ -484,7 +540,7 @@ this.age = []; // nodeId -> age</p>
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
 </div>
 <p>If this node receives influence</p>
         </td>
