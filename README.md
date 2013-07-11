@@ -1,4 +1,4 @@
-# concept-network [![Build Status](https://secure.travis-ci.org/parmentf/node-concept-network.png)](http://travis-ci.org/parmentf/node-concept-network)
+# concept-network [![Build Status](https://secure.travis-ci.org/parmentf/node-concept-network.png)](http://travis-ci.org/parmentf/node-concept-network) [![NPM version](https://badge.fury.io/js/concept-network.png)](http://badge.fury.io/js/concept-network)
 
 Concept Network is weighted directed graph, in which activation values are propagated. Written in [Node.js](http://nodejs.org).
 
