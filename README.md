@@ -30,9 +30,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-2014/08/07: version 0.1.4: fix some error cases with injector
-2013/01/05: version 0.1.3: add ConceptNetworkState.getMaximumValue() and ConceptNetworkState.getActivatedTypedNodes()
-2013/01/03: version 0.1.2: add ConceptNetworkState 
+* 2014/08/07: version 0.1.4: fix some error cases with injector
+* 2013/01/05: version 0.1.3: add ConceptNetworkState.getMaximumValue() and ConceptNetworkState.getActivatedTypedNodes()
+* 2013/01/03: version 0.1.2: add ConceptNetworkState 
 
 Warning: this is a work in progress.
 
