@@ -203,6 +203,13 @@ describe('ConceptNetwork', function () {
         assert.equal(link.coOcc, 1);
       });
 
+      it('shoulg get the link with two parameters', function () {
+        var link = cn.getLink(1,2);
+        assert.equal(link.fromId, 1);
+        assert.equal(link.toId, 2);
+        assert.equal(link.coOcc, 1);
+      });
+
       it('should return null when the node does not exist', function () {
         var link = cn.getLink('1_100');
         assert.equal(link, null);
