@@ -25,7 +25,9 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "mocha",
+    "test-s": "mocha --reporter spec",
+    "test-w": "mocha --growl --watch"
   },
   "dependencies": {
     "debug": "0.7.x",
