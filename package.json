@@ -22,7 +22,7 @@
   ],
   "main": "index",
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
