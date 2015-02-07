@@ -55,6 +55,12 @@ describe('ConceptNetwork', function () {
       assert.equal(node.id, 1);
       assert.equal(node.occ, 3);
     });
+
+    it('should increment more than one', function () {
+      var node = cn.addNode("Steven Seagal",3);
+      assert.equal(node.id, 3);
+      assert.equal(node.occ, 3);
+    });
   });
 
   // ### decrementNode
@@ -101,6 +107,11 @@ describe('ConceptNetwork', function () {
     it('should increment coOcc', function () {
       var link = cn.addLink(1, 2);
       assert.equal(link.coOcc, 2);
+    });
+
+    it('should increment with more than 1', function () {
+      var link = cn.addLink(1, 2, 4);
+      assert.equal(link.coOcc, 6);
     });
 
     it('should create a good fromIndex', function () {
