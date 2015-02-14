@@ -87,6 +87,32 @@ var options = {
       cyNode.unselect().select();
     });
 
+    $('#add-node-btn').click(function () {
+      $('#add-node-window').show();
+    });
+
+    $('#create-node-btn').click(function (e) {
+      e.preventDefault();
+      var nodeLabel = $('#node-label').val();
+      var node = cn.addNode(nodeLabel);
+      if (node.occ === 1) {
+        cy.add({
+          group: 'nodes',
+          data: {
+            id: nodeLabel,
+            occ: 1,
+            cnId: node.id,
+            value: 0
+          }
+        });
+      }
+      else {
+        cy.$('#' + nodeLabel).data('occ', node.occ);
+      }
+      $('#add-node-window').hide();
+      cy.layout({name:'cose'});
+    });
+
     // Add one node, and one edge
     cy.add([
       { group: 'nodes', data: { id: 'c', occ: 2, value: 0} },

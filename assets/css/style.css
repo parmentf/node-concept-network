@@ -24,3 +24,15 @@ body {
 #actions {
   top: 150px;
 }
+
+#add-node-window {
+  padding: 10px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 70%;
+  height: 80%;
+  background-color: white;
+  border: solid;
+  display: none;
+}
