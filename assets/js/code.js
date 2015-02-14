@@ -63,11 +63,13 @@ var options = {
       html += "</ul>";
       $('#info').html(html);
       $('#activate-btn').prop('disabled',false);
+      $('#del-node-btn').prop('disabled', false);
     });
 
     cy.on('unselect', 'node', function(e) {
       $('#info').text("");
       $('#activate-btn').prop('disabled',true);
+      $('#del-node-btn').prop('disabled',true);
     });
 
     $('#propagate-btn').click(function () {
@@ -111,6 +113,13 @@ var options = {
       }
       $('#add-node-window').hide();
       cy.layout({name:'cose'});
+    });
+
+    $('#del-node-btn').click(function () {
+      var cyNode = cy.nodes(':selected')[0];
+      var cnNode = cn.getNode(cyNode.data('id'));
+      cn.removeNode(cnNode.id);
+      cy.remove(cyNode);
     });
 
     // Add one node, and one edge
