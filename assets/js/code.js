@@ -142,8 +142,8 @@ var options = {
           data: {
             id: nodeLabel,
             occ: 1,
-            cnId: node.id,
-            value: 0
+            value: 0,
+            cnId: node.id
           }
         });
       }
