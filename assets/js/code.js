@@ -6,6 +6,9 @@ var ConceptNetworkState = require('concept-network').ConceptNetworkState;
 var cn = window.cn = new ConceptNetwork();
 var cns = window.cns = new ConceptNetworkState(cn);
 
+var linking = false;
+var cySource;
+
 var options = {
   layout: {
     name: 'cose',
@@ -52,7 +55,34 @@ var options = {
 
     cy.on('select', 'node', function(e) {
       var data = e.cyTarget.data();
-      var html = "<ul>";
+
+      if (linking) {
+        var cnSource = cySource.data('cnId');
+        var cyTarget = cy.nodes(':selected')[0];
+        var cnTarget = cyTarget.data('cnId');
+        var cnLink = cn.addLink(cnSource, cnTarget);
+        if (cnLink.coOcc === 1) {
+          var link = {
+              source: cySource.data('id'),
+              target: cyTarget.data('id'),
+              cooc: 1,
+              id: cySource.data('id') + '_' + cyTarget.data('id')
+            };
+          cy.add({
+            group: 'edges',
+            data: link
+          });
+        }
+        else {
+          var cyEdge = cy.edges('[source="'+cySource.data('id')+'"][target="'+cyTarget.data('id')+'"]');
+          cyEdge.data('cooc',cnLink.coOcc);
+        }
+        cy.layout({name:'cose'});
+        cySource = null;
+        linking = false;
+        return;
+      }
+            var html = "<ul>";
       Object.keys(data).forEach(function (key) {
         var value = data[key];
         if (key === 'value') {
@@ -63,13 +93,15 @@ var options = {
       html += "</ul>";
       $('#info').html(html);
       $('#activate-btn').prop('disabled',false);
-      $('#del-node-btn').prop('disabled', false);
+      $('#del-node-btn').prop('disabled',false);
+      $('#add-link-btn').prop('disabled',false);
     });
 
     cy.on('unselect', 'node', function(e) {
       $('#info').text("");
       $('#activate-btn').prop('disabled',true);
       $('#del-node-btn').prop('disabled',true);
+      $('#add-link-btn').prop('disabled',true);
     });
 
     $('#propagate-btn').click(function () {
@@ -120,6 +152,11 @@ var options = {
       var cnNode = cn.getNode(cyNode.data('id'));
       cn.removeNode(cnNode.id);
       cy.remove(cyNode);
+    });
+
+    $('#add-link-btn').click(function () {
+      cySource = cy.nodes(':selected')[0];
+      linking  = true;
     });
 
     // Add one node, and one edge
