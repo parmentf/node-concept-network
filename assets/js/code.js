@@ -130,6 +130,7 @@ var options = {
 
     $('#add-node-btn').click(function () {
       $('#add-node-window').show();
+      $('#node-label').focus();
     });
 
     $('#create-node-btn').click(function (e) {
