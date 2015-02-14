@@ -9,6 +9,19 @@ var cns = window.cns = new ConceptNetworkState(cn);
 var linking = false;
 var cySource;
 
+var displayInfo = function (data) {
+  var html = "<ul>";
+  Object.keys(data).forEach(function (key) {
+    var value = data[key];
+    if (key === 'value') {
+      value = Math.round(value);
+    }
+    html += "<li>" + key+":"+value + "</li>";
+  });
+  html += "</ul>";
+  $('#info').html(html);
+};
+
 var options = {
   layout: {
     name: 'cose',
@@ -37,7 +50,9 @@ var options = {
     .selector(':selected')
       .css({
         'border-width': 3,
-        'border-color': '#333'
+        'border-color': '#333',
+        'line-color': 'black',
+        'target-arrow-color': 'black'
       }),
 
   elements: {
@@ -47,8 +62,8 @@ var options = {
       { data: { id: 'c', occ: 2, value: 0} },
     ],
     edges: [
-      { data: { id: 'ab', source: 'a', target: 'b', cooc: 1 } },
-      { data: { id: 'bc', source: 'b', target: 'c', cooc: 1 } }
+      { data: { id: 'a_b', source: 'a', target: 'b', cooc: 1 } },
+      { data: { id: 'b_c', source: 'b', target: 'c', cooc: 1 } }
     ]
   },
 
@@ -65,10 +80,10 @@ var options = {
         var cnLink = cn.addLink(cnSource, cnTarget);
         if (cnLink.coOcc === 1) {
           var link = {
+              id: cySource.data('id') + '_' + cyTarget.data('id'),
               source: cySource.data('id'),
               target: cyTarget.data('id'),
-              cooc: 1,
-              id: cySource.data('id') + '_' + cyTarget.data('id')
+              cooc: 1
             };
           cy.add({
             group: 'edges',
@@ -79,21 +94,11 @@ var options = {
           var cyEdge = cy.edges('[source="'+cySource.data('id')+'"][target="'+cyTarget.data('id')+'"]');
           cyEdge.data('cooc',cnLink.coOcc);
         }
-        cy.layout({name:'cose'});
         cySource = null;
         linking = false;
         return;
       }
-      var html = "<ul>";
-      Object.keys(data).forEach(function (key) {
-        var value = data[key];
-        if (key === 'value') {
-          value = Math.round(value);
-        }
-        html += "<li>" + key+":"+value + "</li>";
-      });
-      html += "</ul>";
-      $('#info').html(html);
+      displayInfo(data);
       $('#activate-btn').prop('disabled',false);
       $('#del-node-btn').prop('disabled',false);
       $('#add-link-btn').prop('disabled',false);
@@ -145,8 +150,8 @@ var options = {
       else {
         cy.$('#' + nodeLabel).data('occ', node.occ);
       }
+      cy.layout({name:"cose"});
       $('#add-node-window').hide();
-      cy.layout({name:'cose'});
     });
 
     $('#del-node-btn').click(function () {
@@ -159,6 +164,16 @@ var options = {
     $('#add-link-btn').click(function () {
       cySource = cy.nodes(':selected')[0];
       linking  = true;
+    });
+
+    cy.on('select', 'edge', function (e) {
+      var cyEdge = e.cyTarget;
+      displayInfo(cyEdge.data());
+      $('#del-link-btn').prop('disabled', false);
+    });
+
+    cy.on('unselect', 'edge', function (e) {
+      $('#del-link-btn').prop('disabled', true);
     });
 
     // Copy Cytoscape network into ConceptNetwork
