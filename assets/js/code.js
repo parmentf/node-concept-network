@@ -53,13 +53,16 @@ var options = {
     cy.on('select', 'node', function(e) {
       console.log('select node',e.cyTarget.data());
       var data = e.cyTarget.data();
+      var html = "<ul>";
       Object.keys(data).forEach(function (key) {
         var value = data[key];
         if (key === 'value') {
           value = Math.round(value);
         }
-        $('#info').append("<li>" + key+":"+value + "</li>");
+        html += "<li>" + key+":"+value + "</li>";
       });
+      html += "</ul>";
+      $('#info').html(html);
       $('#activate-btn').prop('disabled',false);
     });
 

@@ -16,6 +16,11 @@ body {
   left: 91%;
 }
 
+.right ul {
+  padding-left: 0;
+  list-style: none;
+}
+
 #actions {
   top: 150px;
 }
