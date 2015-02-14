@@ -176,6 +176,14 @@ var options = {
       $('#del-link-btn').prop('disabled', true);
     });
 
+    $('#del-link-btn').click(function () {
+      var cyEdge = cy.edges(':selected')[0].data();
+      var cnSource = cn.getNode(cyEdge.source);
+      var cnTarget = cn.getNode(cyEdge.target);
+      cn.removeLink(cnSource.id+'_'+cnTarget.id);
+      cy.remove(cy.edges(':selected'));
+    });
+
     // Copy Cytoscape network into ConceptNetwork
     var nodes = cy.nodes();
     for (var i=0; i < nodes.length; i++) {
