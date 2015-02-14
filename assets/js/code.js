@@ -43,10 +43,12 @@ var options = {
   elements: {
     nodes: [
       { data: { id: 'a', occ: 1, value: 100 } },
-      { data: { id: 'b', occ: 1, value: 0 } }
+      { data: { id: 'b', occ: 1, value: 0 } },
+      { data: { id: 'c', occ: 2, value: 0} },
     ],
     edges: [
-      { data: { id: 'ab', source: 'a', target: 'b', cooc: 1 } }
+      { data: { id: 'ab', source: 'a', target: 'b', cooc: 1 } },
+      { data: { id: 'bc', source: 'b', target: 'c', cooc: 1 } }
     ]
   },
 
@@ -82,7 +84,7 @@ var options = {
         linking = false;
         return;
       }
-            var html = "<ul>";
+      var html = "<ul>";
       Object.keys(data).forEach(function (key) {
         var value = data[key];
         if (key === 'value') {
@@ -159,14 +161,6 @@ var options = {
       linking  = true;
     });
 
-    // Add one node, and one edge
-    cy.add([
-      { group: 'nodes', data: { id: 'c', occ: 2, value: 0} },
-      { group: 'edges', data: { id: 'bc', source: 'b', target: 'c', cooc: 1 } }
-    ]);
-
-    cy.layout({ name: 'cose' });
-
     // Copy Cytoscape network into ConceptNetwork
     var nodes = cy.nodes();
     for (var i=0; i < nodes.length; i++) {
@@ -178,7 +172,7 @@ var options = {
     for (i=0; i < edges.length; i++) {
       var cnSourceId = cy.$('#'+edges[i].data('source')).data('cnId');
       var cnTargetId = cy.$('#'+edges[i].data('target')).data('cnId');
-      cn.addLink(cnSourceId, cnTargetId);
+      cn.addLink(cnSourceId, cnTargetId, edges[i].data('cooc'));
     }
   }
 };
