@@ -28,9 +28,11 @@
     "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
     "test": "mocha",
     "test-s": "mocha --reporter spec",
-    "test-w": "mocha --growl --watch"
+    "test-w": "mocha --growl --watch",
+    "build": "browserify -r ./index.js:concept-network > ./assets/js/bundle.js"
   },
   "dependencies": {
+    "browserify": "^8.1.3",
     "debug": "0.7.x"
   },
   "devDependencies": {
