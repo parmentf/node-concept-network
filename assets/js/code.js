@@ -51,7 +51,6 @@ var options = {
     window.cy = this;
 
     cy.on('select', 'node', function(e) {
-      console.log('select node',e.cyTarget.data());
       var data = e.cyTarget.data();
       var html = "<ul>";
       Object.keys(data).forEach(function (key) {
@@ -81,7 +80,6 @@ var options = {
     });
 
     $('#activate-btn').click(function () {
-      console.log('activate');
       var cyNode = cy.nodes(':selected')[0];
       var cnNode = cn.getNode(cyNode.data('id'));
       cns.activate(cnNode.id);
@@ -106,10 +104,8 @@ var options = {
     }
     var edges = cy.edges();
     for (i=0; i < edges.length; i++) {
-      console.log('addLink',edges[i].data('source'), edges[i].data('target'));
       var cnSourceId = cy.$('#'+edges[i].data('source')).data('cnId');
       var cnTargetId = cy.$('#'+edges[i].data('target')).data('cnId');
-      console.log(cnSourceId, cnTargetId);
       cn.addLink(cnSourceId, cnTargetId);
     }
   }
