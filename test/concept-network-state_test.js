@@ -235,6 +235,26 @@ describe('ConceptNetworkState', function () {
       assert.equal(cns.getActivationValue(node2.id) > 0, true);
     });
 
+    it('should accept options', function () {
+      assert.doesNotThrow(function () {
+        cns.propagate({anything: 1});
+      },
+      null,
+      "unexpected error");
+    });
+
+    it('should take decay into account', function () {
+      cns.propagate({decay: 200});
+      assert.deepEqual(cns.nodeState, {}, 'all nodes should be deactivated');
+    });
+
+    it('should take memoryPerf into account', function () {
+      cns.activate(node1.id);
+      cns.propagate({memoryPerf: Infinity});
+      assert.equal(cns.getActivationValue(node1.id), 60,
+        'with an infinite memory perf, activation should not decay too much');
+    });
+
   });
 
 });
