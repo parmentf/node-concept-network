@@ -115,7 +115,7 @@ var options = {
 
     $('#propagate-btn').click(function () {
       var nodes = cy.nodes();
-      cns.propagate();
+      cns.propagate({decay: 60, memoryPerf: 500});
       for (i=0; i < nodes.length; i++) {
         var av = cns.getActivationValue(nodes[i].data('cnId'));
         nodes[i].data('value',av);
