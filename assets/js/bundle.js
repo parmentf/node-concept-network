@@ -172,8 +172,13 @@ ConceptNetworkState.prototype = {
    * ### propagate
    *
    * Propagate the activation values along the links.
+   *
+   * @param {Object} options {decay,memoryPerf}
    **/
-  propagate : function () {
+  propagate : function (options) {
+    if (options && typeof options !== 'object') {
+      throw new Error("propagate() parameter should be an object");
+    }
     var influenceNb = [];    // nodeId -> nb of influence number
     var influenceValue = []; // nodeId -> influence value
     for (var nodeId in this.nodeState) {
@@ -212,8 +217,14 @@ ConceptNetworkState.prototype = {
       if (typeof nodeState === 'undefined') {
         nodeState = { activationValue: 0, oldActivationValue: 0, age: 0 };
       }
-      var decay = 40;
-      var memoryPerf = 100;
+      if (!options) {
+        options = {
+          decay      : 40,
+          memoryPerf : 100
+        };
+      }
+      var decay      = options.decay || 40;
+      var memoryPerf = options.memoryPerf || 100;
       var minusAge = 200 / (1 + Math.exp(-nodeState.age / memoryPerf)) - 100;
       var newActivationValue;
       // If this node is not influenced at all
