@@ -1,4 +1,6 @@
+/*jshint strict:true*/
 $(function(){ // on dom ready
+"use strict";
 
 var ConceptNetwork = require('concept-network').ConceptNetwork;
 var ConceptNetworkState = require('concept-network').ConceptNetworkState;
