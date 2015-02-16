@@ -47,7 +47,7 @@ var options = {
 
     .selector('edge')
       .css({
-        'width': 'mapData(cooc, 1, 10, 2, 5)',
+        'width': 'mapData(strength, 1, 10, 2, 20)',
         'target-arrow-shape': 'triangle'
       })
 
@@ -61,13 +61,13 @@ var options = {
 
   elements: {
     nodes: [
-      { data: { id: '1', label: 'a', occ: 1, value: 100 } },
-      { data: { id: '2', label: 'b', occ: 1, value: 0 } },
-      { data: { id: '3', label: 'c', occ: 2, value: 0} },
+      { data: { id: '-1', label: 'a', occ: 1, value: 100 } },
+      { data: { id: '-2', label: 'b', occ: 1, value: 0 } },
+      { data: { id: '-3', label: 'c', occ: 2, value: 0} },
     ],
     edges: [
-      { data: { id: '1_2', source: 1, target: 2, cooc: 1 } },
-      { data: { id: '2_3', source: 2, target: 3, cooc: 1 } }
+      { data: { id: '1_2', source: -1, target: -2, strength: 1 } },
+      { data: { id: '2_3', source: -2, target: -3, strength: 1 } }
     ]
   },
 
@@ -108,11 +108,14 @@ var options = {
             id     : linkId,
             source : Number(cn.link[linkId].fromId),
             target : Number(cn.link[linkId].toId),
-            cooc   : Number(cn.link[linkId].coOcc)
+            strength   : Number(cn.link[linkId].coOcc)
           }
         });
       }
-      cy.elements().remove();
+      // Remove first example
+      if (cy.nodes().length !== Object.keys(cn.node).length) {
+        cy.elements().remove();
+      }
       cy.add(eles);
       cy.layout(layoutOptions);
     });
@@ -130,7 +133,7 @@ var options = {
               id: cySource.data('id') + '_' + cyTarget.data('id'),
               source: cySource.data('id'),
               target: cyTarget.data('id'),
-              cooc: 1
+              strength: 1
             };
           cy.add({
             group: 'edges',
@@ -139,7 +142,7 @@ var options = {
         }
         else {
           var cyEdge = cy.edges('[source="'+cySource.data('id')+'"][target="'+cyTarget.data('id')+'"]');
-          cyEdge.data('cooc',cnLink.coOcc);
+          cyEdge.data('strength',cnLink.coOcc);
         }
         cySource = null;
         linking = false;
@@ -174,7 +177,6 @@ var options = {
       decay = isNaN(decay) ? 60 : decay;
       memoryPerf = isNaN(memoryPerf) ? 500 : memoryPerf;
       var options = {decay: decay, memoryPerf: memoryPerf};
-      console.log('options',options);
       cns.propagate(options);
       for (i=0; i < nodes.length; i++) {
         var av = cns.getActivationValue(nodes[i].data('cnId'));
@@ -289,7 +291,7 @@ var options = {
     for (i=0; i < edges.length; i++) {
       var cnSourceId = cy.$('#'+edges[i].data('source')).data('cnId');
       var cnTargetId = cy.$('#'+edges[i].data('target')).data('cnId');
-      cn.addLink(cnSourceId, cnTargetId, edges[i].data('cooc'));
+      cn.addLink(cnSourceId, cnTargetId, edges[i].data('strength'));
     }
   }
 };
