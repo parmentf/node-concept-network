@@ -47,7 +47,7 @@ var options = {
 
     .selector('edge')
       .css({
-        'width': 'mapData(strength, 1, 10, 2, 20)',
+        'width': 'mapData(strength, 1, 10, 2, 10)',
         'target-arrow-shape': 'triangle'
       })
 
@@ -116,6 +116,8 @@ var options = {
       if (cy.nodes().length !== Object.keys(cn.node).length) {
         cy.elements().remove();
       }
+      $('#decay').val(40);
+      $('#memoryPerf').val(100);
       cy.add(eles);
       cy.layout(layoutOptions);
     });
@@ -216,7 +218,7 @@ var options = {
         });
       }
       else {
-        cy.$('#' + nodeLabel).data('occ', node.occ);
+        cy.nodes('[label="' + nodeLabel + '"]').data('occ', node.occ);
       }
       cy.layout(layoutOptions);
       $('#add-node-window').hide();
