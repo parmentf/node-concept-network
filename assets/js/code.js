@@ -147,6 +147,14 @@ var options = {
       $('#activate-btn').prop('disabled',false);
       $('#del-node-btn').prop('disabled',false);
       $('#add-link-btn').prop('disabled',false);
+      if (e.cyTarget.locked()) {
+        $('#unlock-node-btn').show();
+        $('#lock-node-btn').hide();
+      }
+      else {
+        $('#unlock-node-btn').hide();
+        $('#lock-node-btn').show();
+      }
     });
 
     cy.on('unselect', 'node', function(e) {
@@ -247,6 +255,20 @@ var options = {
       var cnTarget = cn.node[cyEdge.target];
       cn.removeLink(cnSource.id+'_'+cnTarget.id);
       cy.remove(cy.edges(':selected'));
+    });
+
+    $('#lock-node-btn').click(function () {
+      var node = cy.nodes(':selected')[0];
+      node.lock();
+      $('#lock-node-btn').hide();
+      $('#unlock-node-btn').show();
+    });
+
+    $('#unlock-node-btn').click(function () {
+      var node = cy.nodes(':selected')[0];
+      node.unlock();
+      $('#lock-node-btn').show();
+      $('#unlock-node-btn').hide();
     });
 
     // Copy Cytoscape network into ConceptNetwork
