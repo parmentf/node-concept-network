@@ -24,11 +24,13 @@ var displayInfo = function (data) {
   $('#info').html(html);
 };
 
+var layoutOptions = {
+  name: "cose",
+  padding: 10
+};
+
 var options = {
-  layout: {
-    name: 'cose',
-    padding: 10
-  },
+  layout: layoutOptions,
 
   style: cytoscape.stylesheet()
     .selector('node')
@@ -112,7 +114,7 @@ var options = {
       }
       cy.elements().remove();
       cy.add(eles);
-      cy.layout({name:"cose"});
+      cy.layout(layoutOptions);
     });
 
     cy.on('select', 'node', function(e) {
@@ -214,7 +216,7 @@ var options = {
       else {
         cy.$('#' + nodeLabel).data('occ', node.occ);
       }
-      cy.layout({name:"cose"});
+      cy.layout(layoutOptions);
       $('#add-node-window').hide();
     });
 
@@ -270,6 +272,10 @@ var options = {
       node.unlock();
       $('#lock-node-btn').show();
       $('#unlock-node-btn').hide();
+    });
+
+    $('#layout-btn').click(function () {
+      cy.layout(layoutOptions);
     });
 
     // Copy Cytoscape network into ConceptNetwork
