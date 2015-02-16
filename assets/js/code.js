@@ -35,7 +35,7 @@ var options = {
       .css({
         'width': 'mapData(occ, 1, 10, 50, 100)',
         'shape': 'rectangle',
-        'content': 'data(id)',
+        'content': 'data(label)',
         'text-valign': 'center',
         'text-outline-width': 1,
         'text-outline-color': 'mapData(value, 0,100, grey, red)',
@@ -59,18 +59,61 @@ var options = {
 
   elements: {
     nodes: [
-      { data: { id: 'a', occ: 1, value: 100 } },
-      { data: { id: 'b', occ: 1, value: 0 } },
-      { data: { id: 'c', occ: 2, value: 0} },
+      { data: { id: '1', label: 'a', occ: 1, value: 100 } },
+      { data: { id: '2', label: 'b', occ: 1, value: 0 } },
+      { data: { id: '3', label: 'c', occ: 2, value: 0} },
     ],
     edges: [
-      { data: { id: 'a_b', source: 'a', target: 'b', cooc: 1 } },
-      { data: { id: 'b_c', source: 'b', target: 'c', cooc: 1 } }
+      { data: { id: '1_2', source: 1, target: 2, cooc: 1 } },
+      { data: { id: '2_3', source: 2, target: 3, cooc: 1 } }
     ]
   },
 
   ready: function() {
     window.cy = this;
+
+    if (localStorage && localStorage.ector) {
+      $('#load-ector-btn').show();
+    }
+
+    $('#load-ector-btn').click(function () {
+      $('#load-ector-btn').attr('disabled', true);
+      var newCN = JSON.parse(localStorage.ector);
+      cn.fromIndex = newCN.fromIndex;
+      cn.labelIndex = newCN.labelIndex;
+      cn.link = newCN.link;
+      cn.node = newCN.node;
+      cn.nodeLastId = newCN.nodeLastId;
+      cn.toIndex = newCN.toIndex;
+      cns.nodeState = {};
+      // Copy ConceptNetwork into Cytoscape network
+      var eles = [];
+      for (var nodeId in cn.node) {
+        eles.push({
+          group: "nodes",
+          data : {
+            id : nodeId,
+            label: cn.node[nodeId].label,
+            occ  : Number(cn.node[nodeId].occ),
+            cnId : Number(nodeId)
+          }
+        });
+      }
+      for (var linkId in cn.link) {
+        eles.push({
+          group: "edges",
+          data : {
+            id     : linkId,
+            source : Number(cn.link[linkId].fromId),
+            target : Number(cn.link[linkId].toId),
+            cooc   : Number(cn.link[linkId].coOcc)
+          }
+        });
+      }
+      cy.elements().remove();
+      cy.add(eles);
+      cy.layout({name:"cose"});
+    });
 
     cy.on('select', 'node', function(e) {
       var data = e.cyTarget.data();
@@ -79,7 +122,11 @@ var options = {
         var cnSource = cySource.data('cnId');
         var cyTarget = cy.nodes(':selected')[0];
         var cnTarget = cyTarget.data('cnId');
+        console.log('cnSource', cnSource, typeof cnSource);
+        console.log('cyTarget', cyTarget);
+        console.log('cnTarget', cnTarget, typeof cnTarget);
         var cnLink = cn.addLink(cnSource, cnTarget);
+        console.log('cnLink', cnLink);
         if (cnLink.coOcc === 1) {
           var link = {
               id: cySource.data('id') + '_' + cyTarget.data('id'),
@@ -91,10 +138,12 @@ var options = {
             group: 'edges',
             data: link
           });
+          console.log('creation',link, cnLink);
         }
         else {
           var cyEdge = cy.edges('[source="'+cySource.data('id')+'"][target="'+cyTarget.data('id')+'"]');
           cyEdge.data('cooc',cnLink.coOcc);
+          console.log("update",cyEdge);
         }
         cySource = null;
         linking = false;
@@ -124,7 +173,8 @@ var options = {
 
     $('#activate-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
-      var cnNode = cn.getNode(cyNode.data('id'));
+      var cnNode = cn.getNode(cyNode.data('label'));
+      console.log('cnNode(',cyNode.data('label'),')', cnNode);
       cns.activate(cnNode.id);
       cyNode.data('value', 100);
       cyNode.unselect().select();
@@ -143,7 +193,8 @@ var options = {
         cy.add({
           group: 'nodes',
           data: {
-            id: nodeLabel,
+            id   : String(cy.nodes().length+1),
+            label: nodeLabel,
             occ: 1,
             value: 0,
             cnId: node.id
@@ -181,8 +232,8 @@ var options = {
 
     $('#del-link-btn').click(function () {
       var cyEdge = cy.edges(':selected')[0].data();
-      var cnSource = cn.getNode(cyEdge.source);
-      var cnTarget = cn.getNode(cyEdge.target);
+      var cnSource = cn.node[cyEdge.source];
+      var cnTarget = cn.node[cyEdge.target];
       cn.removeLink(cnSource.id+'_'+cnTarget.id);
       cy.remove(cy.edges(':selected'));
     });
