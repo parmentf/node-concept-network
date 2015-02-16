@@ -122,11 +122,7 @@ var options = {
         var cnSource = cySource.data('cnId');
         var cyTarget = cy.nodes(':selected')[0];
         var cnTarget = cyTarget.data('cnId');
-        console.log('cnSource', cnSource, typeof cnSource);
-        console.log('cyTarget', cyTarget);
-        console.log('cnTarget', cnTarget, typeof cnTarget);
         var cnLink = cn.addLink(cnSource, cnTarget);
-        console.log('cnLink', cnLink);
         if (cnLink.coOcc === 1) {
           var link = {
               id: cySource.data('id') + '_' + cyTarget.data('id'),
@@ -138,12 +134,10 @@ var options = {
             group: 'edges',
             data: link
           });
-          console.log('creation',link, cnLink);
         }
         else {
           var cyEdge = cy.edges('[source="'+cySource.data('id')+'"][target="'+cyTarget.data('id')+'"]');
           cyEdge.data('cooc',cnLink.coOcc);
-          console.log("update",cyEdge);
         }
         cySource = null;
         linking = false;
@@ -174,7 +168,6 @@ var options = {
     $('#activate-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
       var cnNode = cn.getNode(cyNode.data('label'));
-      console.log('cnNode(',cyNode.data('label'),')', cnNode);
       cns.activate(cnNode.id);
       cyNode.data('value', 100);
       cyNode.unselect().select();
