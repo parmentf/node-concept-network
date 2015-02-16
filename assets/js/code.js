@@ -158,7 +158,13 @@ var options = {
 
     $('#propagate-btn').click(function () {
       var nodes = cy.nodes();
-      cns.propagate({decay: 60, memoryPerf: 500});
+      var decay = Number($('#decay').val());
+      var memoryPerf = Number($('#memoryPerf').val());
+      decay = isNaN(decay) ? 60 : decay;
+      memoryPerf = isNaN(memoryPerf) ? 500 : memoryPerf;
+      var options = {decay: decay, memoryPerf: memoryPerf};
+      console.log('options',options);
+      cns.propagate(options);
       for (i=0; i < nodes.length; i++) {
         var av = cns.getActivationValue(nodes[i].data('cnId'));
         nodes[i].data('value',av);
