@@ -141,7 +141,6 @@ var options = {
         }
         cySource = null;
         linking = false;
-        return;
       }
       displayInfo(data);
       $('#activate-btn').prop('disabled',false);
@@ -162,6 +161,8 @@ var options = {
       $('#activate-btn').prop('disabled',true);
       $('#del-node-btn').prop('disabled',true);
       $('#add-link-btn').prop('disabled',true);
+      $('#lock-node-btn').hide();
+      $('#unlock-node-btn').hide();
     });
 
     $('#propagate-btn').click(function () {
