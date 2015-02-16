@@ -241,7 +241,7 @@ var options = {
     // Copy Cytoscape network into ConceptNetwork
     var nodes = cy.nodes();
     for (var i=0; i < nodes.length; i++) {
-      var node = cn.addNode(nodes[i].data('id'));
+      var node = cn.addNode(nodes[i].data('label'));
       cns.setActivationValue(node.id, nodes[i].data('value'));
       nodes[i].data('cnId', node.id);
     }
