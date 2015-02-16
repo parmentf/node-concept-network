@@ -77,7 +77,6 @@ var options = {
     }
 
     $('#load-ector-btn').click(function () {
-      $('#load-ector-btn').attr('disabled', true);
       var newCN = JSON.parse(localStorage.ector);
       cn.fromIndex = newCN.fromIndex;
       cn.labelIndex = newCN.labelIndex;
@@ -93,8 +92,9 @@ var options = {
           group: "nodes",
           data : {
             id : nodeId,
-            label: cn.node[nodeId].label,
+            label: cn.node[nodeId].label.slice(1),
             occ  : Number(cn.node[nodeId].occ),
+            type : cn.node[nodeId].label.slice(0,1),
             cnId : Number(nodeId)
           }
         });
@@ -173,7 +173,9 @@ var options = {
 
     $('#activate-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
-      var cnNode = cn.getNode(cyNode.data('label'));
+      var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
+                     cyNode.data('label');
+      var cnNode = cn.getNode(cnLabel);
       cns.activate(cnNode.id);
       cyNode.data('value', 100);
       cyNode.unselect().select();
@@ -207,9 +209,19 @@ var options = {
       $('#add-node-window').hide();
     });
 
+    $('#activate-btn,#propagate-btn').click(function () {
+      var selectedNodes = cy.nodes(':selected');
+      if (selectedNodes.length) {
+        var selectedNode = selectedNodes[0];
+        displayInfo(selectedNode.data());
+      }
+    });
+
     $('#del-node-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
-      var cnNode = cn.getNode(cyNode.data('label'));
+      var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
+                     cyNode.data('label');
+      var cnNode = cn.getNode(cnLabel);
       cn.removeNode(cnNode.id);
       cy.remove(cyNode);
     });
