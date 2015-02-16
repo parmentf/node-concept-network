@@ -210,7 +210,7 @@ var options = {
 
     $('#del-node-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
-      var cnNode = cn.getNode(cyNode.data('id'));
+      var cnNode = cn.getNode(cyNode.data('label'));
       cn.removeNode(cnNode.id);
       cy.remove(cyNode);
     });
