@@ -153,6 +153,10 @@ var options = {
       $('#activate-btn').prop('disabled',false);
       $('#del-node-btn').prop('disabled',false);
       $('#add-link-btn').prop('disabled',false);
+      $('#incr-btn').show();
+      if (Number(e.cyTarget.data('occ')) > 1) {
+        $('#decr-btn').show();
+      }
       if (e.cyTarget.locked()) {
         $('#unlock-node-btn').show();
         $('#lock-node-btn').hide();
@@ -170,6 +174,33 @@ var options = {
       $('#add-link-btn').prop('disabled',true);
       $('#lock-node-btn').hide();
       $('#unlock-node-btn').hide();
+      $('#incr-btn').hide();
+      $('#decr-btn').hide();
+    });
+
+    $('#incr-btn').click(function () {
+      var cyNode = cy.nodes(':selected')[0];
+      var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
+                     cyNode.data('label');
+      var cnNode = cn.getNode(cnLabel);
+      cnNode.occ++;
+      cyNode.data('occ', cnNode.occ);
+      displayInfo(cyNode.data());
+      $('#decr-btn').show();
+    });
+
+    $('#decr-btn').click(function () {
+      var cyNode = cy.nodes(':selected')[0];
+      var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
+                     cyNode.data('label');
+      var cnNode = cn.getNode(cnLabel);
+      cnNode.occ--;
+      cyNode.data('occ', cnNode.occ);
+      displayInfo(cyNode.data());
+      $('#incr-btn').show();
+      if (cnNode.occ === 1) {
+        $('#decr-btn').hide();
+      }
     });
 
     $('#propagate-btn').click(function () {
