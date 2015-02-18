@@ -122,6 +122,26 @@ var options = {
       cy.layout(layoutOptions);
     });
 
+    cy.on('select', 'edge', function (e) {
+      var edge = e.cyTarget;
+      displayInfo(edge.data());
+      var sourceOcc = Number(edge.source().data('occ'));
+      var edgeStrength = Number(edge.data('strength'));
+      console.log('sourceOcc',sourceOcc,'edgeStrength',edgeStrength);
+      if (sourceOcc > edgeStrength) {
+        $('#incr-edge-btn').show();
+      }
+      if (Number(edge.data('strength')) > 1) {
+        $('#decr-edge-btn').show();
+      }
+    });
+
+    cy.on('unselect', 'edge', function (e) {
+      console.log('edge');
+      $('#incr-edge-btn').hide();
+      $('#decr-edge-btn').hide();
+    });
+
     cy.on('select', 'node', function(e) {
       var data = e.cyTarget.data();
 
@@ -202,6 +222,47 @@ var options = {
         $('#decr-node-btn').hide();
       }
     });
+
+    $('#incr-edge-btn').click(function () {
+      var cyEdge = cy.edges(':selected')[0];
+      var cySource = cyEdge.source();
+      var cyTarget = cyEdge.target();
+      var cnSourceLabel = (cySource.data('type') ? cySource.data('type') : "") +
+                           cySource.data('label');
+      var cnTargetLabel = (cyTarget.data('type') ? cyTarget.data('type') : "") +
+                           cyTarget.data('label');
+      var cnSource = cn.getNode(cnSourceLabel);
+      var cnTarget = cn.getNode(cnTargetLabel);
+      var cnLink = cn.getLink(cnSource.id, cnTarget.id);
+      cnLink.coOcc++;
+      cyEdge.data('strength', cnLink.coOcc);
+      displayInfo(cyEdge.data());
+      $('#decr-edge-btn').show();
+      if (Number(cySource.data('occ')) <= Number(cyEdge.data('strength'))) {
+        $('#incr-edge-btn').hide();
+      }
+    });
+
+    $('#decr-edge-btn').click(function () {
+      var cyEdge = cy.edges(':selected')[0];
+      var cySource = cyEdge.source();
+      var cyTarget = cyEdge.target();
+      var cnSourceLabel = (cySource.data('type') ? cySource.data('type') : "") +
+                           cySource.data('label');
+      var cnTargetLabel = (cyTarget.data('type') ? cyTarget.data('type') : "") +
+                           cyTarget.data('label');
+      var cnSource = cn.getNode(cnSourceLabel);
+      var cnTarget = cn.getNode(cnTargetLabel);
+      var cnLink = cn.getLink(cnSource.id, cnTarget.id);
+      cnLink.coOcc--;
+      cyEdge.data('strength', cnLink.coOcc);
+      displayInfo(cyEdge.data());
+      $('#incr-edge-btn').show();
+      if (cnLink.coOcc === 1) {
+        $('#decr-edge-btn').hide();
+      }
+    });
+
 
     $('#propagate-btn').click(function () {
       var nodes = cy.nodes();
