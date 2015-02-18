@@ -153,9 +153,9 @@ var options = {
       $('#activate-btn').prop('disabled',false);
       $('#del-node-btn').prop('disabled',false);
       $('#add-link-btn').prop('disabled',false);
-      $('#incr-btn').show();
+      $('#incr-node-btn').show();
       if (Number(e.cyTarget.data('occ')) > 1) {
-        $('#decr-btn').show();
+        $('#decr-node-btn').show();
       }
       if (e.cyTarget.locked()) {
         $('#unlock-node-btn').show();
@@ -174,11 +174,11 @@ var options = {
       $('#add-link-btn').prop('disabled',true);
       $('#lock-node-btn').hide();
       $('#unlock-node-btn').hide();
-      $('#incr-btn').hide();
-      $('#decr-btn').hide();
+      $('#incr-node-btn').hide();
+      $('#decr-node-btn').hide();
     });
 
-    $('#incr-btn').click(function () {
+    $('#incr-node-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
       var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
                      cyNode.data('label');
@@ -186,10 +186,10 @@ var options = {
       cnNode.occ++;
       cyNode.data('occ', cnNode.occ);
       displayInfo(cyNode.data());
-      $('#decr-btn').show();
+      $('#decr-node-btn').show();
     });
 
-    $('#decr-btn').click(function () {
+    $('#decr-node-btn').click(function () {
       var cyNode = cy.nodes(':selected')[0];
       var cnLabel = (cyNode.data('type') ? cyNode.data('type') : "") +
                      cyNode.data('label');
@@ -197,9 +197,9 @@ var options = {
       cnNode.occ--;
       cyNode.data('occ', cnNode.occ);
       displayInfo(cyNode.data());
-      $('#incr-btn').show();
+      $('#incr-node-btn').show();
       if (cnNode.occ === 1) {
-        $('#decr-btn').hide();
+        $('#decr-node-btn').hide();
       }
     });
 
