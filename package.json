@@ -31,12 +31,12 @@
     "test-w": "mocha --growl --watch"
   },
   "dependencies": {
-    "debug": "0.7.x"
+    "debug": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "1.7.x",
+    "mocha": "^2.3.4",
     "docker": "0.2.x",
-    "jshint": "0.9.x"
+    "jshint": "^2.9.1-rc1"
   },
   "keywords": [
     "graph",
