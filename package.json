@@ -1,7 +1,7 @@
 {
   "name": "concept-network",
   "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "homepage": "https://github.com/parmentf/node-concept-network",
   "author": {
     "name": "François Parmentier",
