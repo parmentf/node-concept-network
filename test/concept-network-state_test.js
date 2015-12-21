@@ -33,6 +33,16 @@ describe('ConceptNetworkState', function () {
       }, null, "unexpected error");
     });
 
+    it('should be called from a derived constructor', function () {
+      var DerivedConceptNetworkState = function (cn) {
+        // Inherit ConceptNetwork
+        ConceptNetworkState.call(this, cn);
+      };
+      var cn = new ConceptNetwork();
+      var derived = new DerivedConceptNetworkState(cn);
+      assert.deepEqual(derived, {});
+    });
+
   });
 
   describe('#activate', function () {
@@ -48,6 +58,13 @@ describe('ConceptNetworkState', function () {
     });
 
     it('should put the node activation to 100', function (done) {
+      cns.activate(node1.id, function (err, nodeState) {
+        assert.equal(cns.nodeState[node1.id].activationValue, 100);
+        done(err);
+      });
+    });
+
+    it('should cap the activation of an activated node', function (done) {
       cns.activate(node1.id, function (err, nodeState) {
         assert.equal(cns.nodeState[node1.id].activationValue, 100);
         done(err);
@@ -91,6 +108,13 @@ describe('ConceptNetworkState', function () {
           done(err);
         });
       });
+
+      it('should get a zero activation value when no callback',
+      function (done) {
+        assert.equal(cns.getActivationValue(node2.id),0);
+        done();
+      });
+
     });
 
     describe('##getOldActivationValue', function () {
@@ -387,6 +411,29 @@ describe('ConceptNetworkState', function () {
             'with an infinite memory perf, ' +
             'activation should not decay too much');
           done(err);
+        });
+      });
+    });
+
+    it('should throw when first parameter is not an object', function (done) {
+      assert.throws(function () {
+          cns.propagate(1);
+        }, /should be an object/
+      );
+      done();
+    });
+
+    it('should use already existing influenceValue', function (done) {
+      var node3;
+      cn.addNode("Node 3", function (err, node) {
+        if (err) { return done(err); }
+        node3 = node;
+        cn.addLink(node3.id, node2.id, function (err) {
+          if (err) { return done(err); }
+          cns.activate(node1.id, function (err) {
+            if (err) { return done(err); }
+            cns.propagate(done);
+          });
         });
       });
     });

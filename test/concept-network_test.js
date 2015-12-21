@@ -1,7 +1,7 @@
 /*jshint node:true, maxlen:80, curly: true, eqeqeq: true, immed: true,
  latedef: true, newcap: true, noarg: true, sub: true, undef: true,
  eqnull: true, laxcomma: true, indent: 2, white:true */
-/*global describe:true, it:true, before:true */
+/*global describe:true, it:true, before:true, beforeEach:true */
 "use strict";
 
 // # Tests for concept-network module
@@ -14,16 +14,29 @@ var ConceptNetwork = require('../lib/concept-network').ConceptNetwork;
 
 // ## ConceptNetwork
 describe('ConceptNetwork', function () {
+
   // ### Constructor
   describe('#Constructor', function () {
+
     it('should not throw an exception', function () {
       assert.doesNotThrow(function () {
         var cn = new ConceptNetwork();
       }, null, "unexpected error");
     });
+
+    it('should be called from a derived constructor', function () {
+      var DerivedConceptNetwork = function () {
+        // Inherit ConceptNetwork
+        ConceptNetwork.call(this);
+      };
+      var derived = new DerivedConceptNetwork();
+      assert.deepEqual(derived, {});
+    });
+
   });
 
   var cn;
+
   // ### addNode
   describe('#addNode', function () {
 
@@ -71,6 +84,14 @@ describe('ConceptNetwork', function () {
         done(err);
       });
     });
+
+    it('should accept a second argument with a null value', function (done) {
+      cn.addNode("Jean-Claude Van Damme", null, function (err, node) {
+        assert.equal(node.id, 4);
+        assert.equal(node.occ, 1);
+        done(err);
+      });
+    });
   });
 
   // ### decrementNode
@@ -90,10 +111,41 @@ describe('ConceptNetwork', function () {
         done(err);
       });
     });
+
+    it('should return null when node does not exist', function (done) {
+      cn.decrementNode("unexisting", function (err, node) {
+        assert.equal(node, null);
+        done(err);
+      });
+    });
+
   });
 
   // ### removeNode
   describe('#removeNode', function () {
+
+    beforeEach(function (done) {
+      cn = new ConceptNetwork();
+      cn.addNode("Node 1", function (err1, node1) {
+        node1.occ = 2;
+        if (err1) { return done(err1); }
+        cn.addNode("Node 2", function (err2, node2) {
+          if (err2) { return done(err2); }
+          cn.addNode("Node 3", function (err3, node3) {
+            if (err3) { return done(err3); }
+            cn.addNode("Node 4", function (err4, node4) {
+              if (err4) { return done(err4); }
+              cn.addLink(2, 3, function (err5, link23) {
+                if (err5) { return done(err5); }
+                cn.addLink(3,4, function (err6, link34) {
+                  done(err6);
+                });
+              });
+            });
+          });
+        });
+      });
+    });
 
     it('should remove even a node with occ value of 2', function (done) {
       assert.equal(cn.node[1].occ, 2);
@@ -103,8 +155,19 @@ describe('ConceptNetwork', function () {
       });
     });
 
-    it('should remove the links from the removed node');
-    it('should remove the links to the removed node');
+    it('should remove the links from the removed node', function (done) {
+      cn.removeNode(2, function (err) {
+        assert.equal(typeof cn.link['2_3'], "undefined");
+        done(err);
+      });
+    });
+
+    it('should remove the links to the removed node', function (done) {
+      cn.removeNode(4, function (err) {
+        assert.equal(typeof cn.link['3_4'], "undefined");
+        done(err);
+      });
+    });
 
   });
 
@@ -162,6 +225,13 @@ describe('ConceptNetwork', function () {
       });
     });
 
+    it('should increment by 1 with a cb, without an inc', function (done) {
+      cn.addLink(1, 2, undefined, function (err, link) {
+        assert.equal(link.coOcc, 7);
+        done(err);
+      });
+    });
+
   });
 
   describe("#decrementLink", function () {
@@ -202,7 +272,7 @@ describe('ConceptNetwork', function () {
 
   describe("#removeLink", function () {
 
-    before(function (done) {
+    beforeEach(function (done) {
       cn = new ConceptNetwork();
       cn.addNode("Node 1", function (err) {
         if (err) { return done (err); }
@@ -217,6 +287,14 @@ describe('ConceptNetwork', function () {
     it('should remove the link', function (done) {
       assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
       cn.removeLink('1_2', function (err) {
+        assert.equal(typeof cn.link['1_2'], "undefined");
+        done(err);
+      });
+    });
+
+    it('should remove the link, even with a toId', function (done) {
+      assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
+      cn.removeLink(1,2, function (err) {
         assert.equal(typeof cn.link['1_2'], "undefined");
         done(err);
       });
