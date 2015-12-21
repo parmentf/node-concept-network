@@ -21,7 +21,7 @@
   },
   "scripts": {
     "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
-    "test": "npm run lint && mocha",
+    "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-s": "mocha --reporter spec",
     "test-w": "mocha --growl --watch",
     "lint": "jshint lib/"
@@ -32,6 +32,7 @@
   "devDependencies": {
     "docker": "0.2.x",
     "ghooks": "^1.0.1",
+    "istanbul": "^0.4.1",
     "jshint": "^2.9.1-rc1",
     "mocha": "^2.3.4"
   },
