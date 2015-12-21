@@ -14,34 +14,36 @@
   "bugs": {
     "url": "https://github.com/parmentf/node-concept-network/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/parmentf/node-concept-network/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "main": "index",
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
     "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
-    "test": "mocha",
+    "test": "npm run lint && mocha",
     "test-s": "mocha --reporter spec",
-    "test-w": "mocha --growl --watch"
+    "test-w": "mocha --growl --watch",
+    "lint": "jshint lib/"
   },
   "dependencies": {
     "debug": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.4",
     "docker": "0.2.x",
-    "jshint": "^2.9.1-rc1"
+    "ghooks": "^1.0.1",
+    "jshint": "^2.9.1-rc1",
+    "mocha": "^2.3.4"
   },
   "keywords": [
     "graph",
     "weighted",
     "propagation"
   ],
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm test"
+    }
+  }
 }
