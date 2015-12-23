@@ -8,8 +8,8 @@ Install the module with: `npm install concept-network`
 ```javascript
 var ConceptNetwork = require('concept-network').ConceptNetwork;
 var ConceptNetworkState = require('concept-network').ConceptNetworkState;
-var cn = new ConceptNetwork();
-var cns = new ConceptNetworkState(cn);
+var cn = ConceptNetwork();
+var cns = ConceptNetworkState(cn);
 var node1 = cn.addNode("ECTOR");
 var node2 = cn.addNode("knows");
 var node3 = cn.addNode("Achille");

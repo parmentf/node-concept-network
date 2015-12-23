@@ -20,7 +20,7 @@ describe('ConceptNetwork', function () {
 
     it('should not throw an exception', function () {
       assert.doesNotThrow(function () {
-        var cn = new ConceptNetwork();
+        var cn = ConceptNetwork();
       }, null, "unexpected error");
     });
 
@@ -41,7 +41,7 @@ describe('ConceptNetwork', function () {
   describe('#addNode', function () {
 
     before(function () {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
     });
 
     it('should return an object', function (done) {
@@ -64,8 +64,10 @@ describe('ConceptNetwork', function () {
     it('should increment nodeLastId', function (done) {
       cn.addNode("World", function (err, node) {
         assert.equal(node.id, 2);
-        assert.equal(Object.getOwnPropertyNames(cn.node).length, 2);
-        done(err);
+        cn.getNodeNumber(function (err, number) {
+          assert.equal(number, 2);
+          done(err);
+        });
       });
     });
 
@@ -125,7 +127,7 @@ describe('ConceptNetwork', function () {
   describe('#removeNode', function () {
 
     beforeEach(function (done) {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
       cn.addNode("Node 1", function (err1, node1) {
         node1.occ = 2;
         if (err1) { return done(err1); }
@@ -148,24 +150,29 @@ describe('ConceptNetwork', function () {
     });
 
     it('should remove even a node with occ value of 2', function (done) {
-      assert.equal(cn.node[1].occ, 2);
       cn.removeNode(1, function (err) {
-        assert.equal(typeof cn.node[1], "undefined");
-        done(err);
+        cn.getNodeFromId(1, function (err2, node) {
+          assert.equal(node, null);
+          done(err);
+        });
       });
     });
 
     it('should remove the links from the removed node', function (done) {
       cn.removeNode(2, function (err) {
-        assert.equal(typeof cn.link['2_3'], "undefined");
-        done(err);
+        cn.getLink(2,3, function (err2, link) {
+          assert.equal(link, undefined);
+          done(err);
+        });
       });
     });
 
     it('should remove the links to the removed node', function (done) {
       cn.removeNode(4, function (err) {
-        assert.equal(typeof cn.link['3_4'], "undefined");
-        done(err);
+        cn.getLink(3, 4, function (err2, link) {
+          assert.equal(link, undefined);
+          done(err);
+        });
       });
     });
 
@@ -174,7 +181,7 @@ describe('ConceptNetwork', function () {
   describe("#addLink", function () {
 
     before(function (done) {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
       cn.addNode("Node 1", function (err1, node1) {
         if (err1) { return done(err1); }
         cn.addNode("Node 2", function (err2, node2) {
@@ -208,10 +215,12 @@ describe('ConceptNetwork', function () {
       });
     });
 
-    it('should create a good fromIndex', function (done) {
+    it('should return the just created link', function (done) {
       cn.addLink(1, 3, function (err, link) {
-        assert.deepEqual(cn.fromIndex[1], [ '1_2', '1_3']);
-        done(err);
+        cn.getLink(1, 3, function (err2, link2) {
+          assert(link2);
+          done(err);
+        });
       });
     });
 
@@ -237,7 +246,7 @@ describe('ConceptNetwork', function () {
   describe("#decrementLink", function () {
 
     before(function (done) {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
       cn.addNode("Node 1", function (err) {
         if (err) { return done(err); }
         cn.addNode("Node 2", function (err) {
@@ -253,18 +262,20 @@ describe('ConceptNetwork', function () {
     });
 
     it('should decrement a coOcc value of 2', function (done) {
-      assert.equal(cn.link['1_2'].coOcc, 2);
       cn.decrementLink('1_2', function (err, link) {
-        assert.equal(cn.link['1_2'].coOcc, 1);
-        done(err);
+        cn.getLink(1, 2, function (err2, link) {
+          assert.equal(link.coOcc, 1);
+          done(err);
+        });
       });
     });
 
     it('should remove a link with a coOcc value of 0', function (done) {
-      assert.equal(cn.link['1_2'].coOcc, 1);
       cn.decrementLink('1_2', function (err) {
-        assert.equal(typeof cn.link['1_2'], "undefined");
-        done();
+        cn.getLink(1, 2, function (err2, link) {
+          assert.equal(link, undefined);
+          done();
+        });
       });
     });
 
@@ -273,7 +284,7 @@ describe('ConceptNetwork', function () {
   describe("#removeLink", function () {
 
     beforeEach(function (done) {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
       cn.addNode("Node 1", function (err) {
         if (err) { return done (err); }
         cn.addNode("Node 2", function (err) {
@@ -285,18 +296,25 @@ describe('ConceptNetwork', function () {
     });
 
     it('should remove the link', function (done) {
-      assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
-      cn.removeLink('1_2', function (err) {
-        assert.equal(typeof cn.link['1_2'], "undefined");
-        done(err);
+      cn.getLink(1, 2, function (err1, link) {
+        assert.deepEqual(link, { fromId: 1, toId: 2, coOcc: 1 });
+        cn.removeLink('1_2', function (err2) {
+          cn.getLink(1, 2, function (err3, link3) {
+            assert.equal(link3, undefined);
+            done(err2);
+          });
+        });
       });
     });
 
     it('should remove the link, even with a toId', function (done) {
-      assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
+      // assert.deepEqual(cn.link['1_2'], { fromId: 1, toId: 2, coOcc: 1 });
       cn.removeLink(1,2, function (err) {
-        assert.equal(typeof cn.link['1_2'], "undefined");
-        done(err);
+        // assert.equal(typeof cn.link['1_2'], "undefined");
+        cn.getLink(1, 2, function (err2, link) {
+          assert.equal(link, undefined);
+          done(err);
+        });
       });
     });
   });
@@ -304,7 +322,7 @@ describe('ConceptNetwork', function () {
   describe('#getters', function () {
 
     before(function (done) {
-      cn = new ConceptNetwork();
+      cn = ConceptNetwork();
       cn.addNode("Node 1", function (err) {
         if (err) { return done(err); }
         cn.addNode("Node 2", function (err) {
@@ -336,6 +354,24 @@ describe('ConceptNetwork', function () {
 
       it('should return null when the node does not exist', function (done) {
         cn.getNode('Nonexistent', function (err, node) {
+          assert.equal(node, null);
+          done();
+        });
+      });
+
+    });
+
+    describe('#getNodeFromId', function () {
+
+      it('should get the first node', function (done) {
+        cn.getNodeFromId(1, function (err, node) {
+          assert.equal(node.label, "Node 1");
+          done(err);
+        });
+      });
+
+      it('should return null when the node does not exist', function (done) {
+        cn.getNodeFromId(4, function (err, node) {
           assert.equal(node, null);
           done();
         });

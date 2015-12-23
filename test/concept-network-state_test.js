@@ -21,15 +21,15 @@ describe('ConceptNetworkState', function () {
 
     it('should throw an exception if no ConceptNetwork is given', function () {
       assert.throws(function () {
-        var cns = new ConceptNetworkState();
+        var cns = ConceptNetworkState();
       },
       Error);
     });
 
     it('should not throw an exception', function () {
       assert.doesNotThrow(function () {
-        var cn = new ConceptNetwork();
-        var cns = new ConceptNetworkState(cn);
+        var cn = ConceptNetwork();
+        var cns = ConceptNetworkState(cn);
       }, null, "unexpected error");
     });
 
@@ -38,7 +38,7 @@ describe('ConceptNetworkState', function () {
         // Inherit ConceptNetwork
         ConceptNetworkState.call(this, cn);
       };
-      var cn = new ConceptNetwork();
+      var cn = ConceptNetwork();
       var derived = new DerivedConceptNetworkState(cn);
       assert.deepEqual(derived, {});
     });
@@ -49,8 +49,8 @@ describe('ConceptNetworkState', function () {
 
     var cn, cns, node1;
     before(function (done) {
-      cn = new ConceptNetwork();
-      cns = new ConceptNetworkState(cn);
+      cn = ConceptNetwork();
+      cns = ConceptNetworkState(cn);
       cn.addNode("Node 1", function (err, node) {
         node1 = node;
         done(err);
@@ -59,14 +59,17 @@ describe('ConceptNetworkState', function () {
 
     it('should put the node activation to 100', function (done) {
       cns.activate(node1.id, function (err, nodeState) {
-        assert.equal(cns.nodeState[node1.id].activationValue, 100);
-        done(err);
+        assert.equal(nodeState.activationValue, 100);
+        cns.getActivationValue(node1.id, function (err2, value) {
+          assert.equal(value, 100);
+          done(err);
+        });
       });
     });
 
     it('should cap the activation of an activated node', function (done) {
       cns.activate(node1.id, function (err, nodeState) {
-        assert.equal(cns.nodeState[node1.id].activationValue, 100);
+        assert.equal(nodeState.activationValue, 100);
         done(err);
       });
     });
@@ -80,8 +83,8 @@ describe('ConceptNetworkState', function () {
     describe('##getActivationValue', function () {
 
       before(function (done) {
-        cn = new ConceptNetwork();
-        cns = new ConceptNetworkState(cn);
+        cn = ConceptNetwork();
+        cns = ConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -120,8 +123,8 @@ describe('ConceptNetworkState', function () {
     describe('##getOldActivationValue', function () {
 
       before(function (done) {
-        cn = new ConceptNetwork();
-        cns = new ConceptNetworkState(cn);
+        cn = ConceptNetwork();
+        cns = ConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -154,8 +157,8 @@ describe('ConceptNetworkState', function () {
     describe('##getMaximumActivationValue', function () {
 
       before(function (done) {
-        cn = new ConceptNetwork();
-        cns = new ConceptNetworkState(cn);
+        cn = ConceptNetwork();
+        cns = ConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -215,8 +218,8 @@ describe('ConceptNetworkState', function () {
     describe('##getActivatedTypedNodes', function () {
 
       before(function (done) {
-        cn = new ConceptNetwork();
-        cns = new ConceptNetworkState(cn);
+        cn = ConceptNetwork();
+        cns = ConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -311,8 +314,8 @@ describe('ConceptNetworkState', function () {
     describe('##setActivationValue', function () {
 
       before(function (done) {
-        cn = new ConceptNetwork();
-        cns = new ConceptNetworkState(cn);
+        cn = ConceptNetwork();
+        cns = ConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -350,8 +353,8 @@ describe('ConceptNetworkState', function () {
 
     var cn, cns, node1, node2;
     before(function (done) {
-      cn = new ConceptNetwork();
-      cns = new ConceptNetworkState(cn);
+      cn = ConceptNetwork();
+      cns = ConceptNetworkState(cn);
       cn.addNode("Node 1", function (err, node) {
         if (err) { return done(err); }
         node1 = node;
@@ -398,8 +401,10 @@ describe('ConceptNetworkState', function () {
     it('should take decay into account', function (done) {
       cns.propagate({decay: 200}, function (err) {
         if (err) { return done(err); }
-        assert.deepEqual(cns.nodeState, {}, 'all nodes should be deactivated');
-        done(err);
+        cns.getActiveNumber(function (err2, number) {
+          assert.equal(number, 0, 'all nodes should be deactivated');
+          done(err);
+        });
       });
     });
 
@@ -435,6 +440,27 @@ describe('ConceptNetworkState', function () {
             cns.propagate(done);
           });
         });
+      });
+    });
+
+    it('should return an error when getNodes returns an error',
+    function (done) {
+      var mockCN = ConceptNetwork ();
+      mockCN.getNodes = function (cb) {
+        return cb(new Error('Does not work!'));
+      };
+      var cnsErr = ConceptNetworkState(mockCN);
+      mockCN.addNode("Node 1", function (err, node) {
+        if (err) { return done(err); }
+        node1 = node;
+        mockCN.addNode("Node 2", function (err, node) {
+          if (err) { return done(err); }
+          node2 = node;
+          mockCN.addLink(node1.id, node2.id, done);
+        });
+      });
+      cnsErr.propagate(function (err) {
+        assert.deepEqual(err, Error('Does not work!'));
       });
     });
 
