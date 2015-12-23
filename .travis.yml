@@ -1,4 +1,13 @@
+sudo: false
 language: node_js
 node_js:
     - 0.12
     - 0.10
+    - 4.2
+cache:
+  directories:
+    - node_modules
+script:
+  - npm test
+after_success:
+  - npm run coverage-report

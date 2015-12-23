@@ -20,6 +20,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
+    "coverage-report": "cat ./coverage/lcov.info | codecov",
     "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
     "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-s": "mocha --reporter spec",
@@ -30,6 +31,7 @@
     "debug": "^2.2.0"
   },
   "devDependencies": {
+    "codecov.io": "^0.1.6",
     "docker": "0.2.x",
     "ghooks": "^1.0.1",
     "istanbul": "^0.4.1",
