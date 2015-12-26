@@ -213,6 +213,41 @@ describe('ConceptNetworkState', function () {
           });
         });
       });
+
+      it('should return an error when getNodeFromId returns an error',
+      function (done) {
+        var mockCN = ConceptNetwork();
+        var called = false;
+        mockCN.getNodeFromId = function (nodeId, cb) {
+          if (!called) {
+            called = true;
+            return cb(new Error('Does not work!'));
+          }
+          return;
+        };
+        var cnsErr = ConceptNetworkState(mockCN);
+        mockCN.addNode("Node 1", function (err1, node1) {
+          if (err1) { return done(err1); }
+          mockCN.addNode("Node 2", function (err2, node2) {
+            if (err2) { return done(err2); }
+            mockCN.addLink(node1.id, node2.id, function (err3, link) {
+              if (err3) { return done(err3); }
+              cnsErr.activate(node1.id, function (err4) {
+                if (err4) { return done(err4); }
+                var doneCalled = false;
+                cnsErr.getMaximumActivationValue('t',function (err5) {
+                  if (!doneCalled) {
+                    assert.deepEqual(err5, Error('Does not work!'));
+                    done();
+                    doneCalled = true;
+                  }
+                });
+              });
+            });
+          });
+        });
+      });
+
     });
 
     describe('##getActivatedTypedNodes', function () {
@@ -289,6 +324,40 @@ describe('ConceptNetworkState', function () {
               [{"node": {"id": 1, "label": "Node 1", "occ": 1},
                 "activationValue": 100}]);
             done(err);
+          });
+        });
+      });
+
+      it('should return an error when getNodeFromId returns an error',
+      function (done) {
+        var mockCN = ConceptNetwork();
+        var called = false;
+        mockCN.getNodeFromId = function (nodeId, cb) {
+          if (!called) {
+            called = true;
+            return cb(new Error('Does not work!'));
+          }
+          return;
+        };
+        var cnsErr = ConceptNetworkState(mockCN);
+        mockCN.addNode("Node 1", function (err1, node1) {
+          if (err1) { return done(err1); }
+          mockCN.addNode("Node 2", function (err2, node2) {
+            if (err2) { return done(err2); }
+            mockCN.addLink(node1.id, node2.id, function (err3, link) {
+              if (err3) { return done(err3); }
+              cnsErr.activate(node1.id, function (err4) {
+                if (err4) { return done(err4); }
+                var doneCalled = false;
+                cnsErr.getActivatedTypedNodes('t',function (err5) {
+                  if (!doneCalled) {
+                    assert.deepEqual(err5, Error('Does not work!'));
+                    done();
+                    doneCalled = true;
+                  }
+                });
+              });
+            });
           });
         });
       });
@@ -450,17 +519,85 @@ describe('ConceptNetworkState', function () {
         return cb(new Error('Does not work!'));
       };
       var cnsErr = ConceptNetworkState(mockCN);
-      mockCN.addNode("Node 1", function (err, node) {
-        if (err) { return done(err); }
-        node1 = node;
-        mockCN.addNode("Node 2", function (err, node) {
-          if (err) { return done(err); }
-          node2 = node;
-          mockCN.addLink(node1.id, node2.id, done);
+      mockCN.addNode("Node 1", function (err1, node1) {
+        if (err1) { return done(err1); }
+        mockCN.addNode("Node 2", function (err2, node2) {
+          if (err2) { return done(err2); }
+          mockCN.addLink(node1.id, node2.id, function (err3) {
+            if (err3) { return done(err3); }
+            cnsErr.propagate(function (err) {
+              assert.deepEqual(err, Error('Does not work!'));
+              done();
+            });
+          });
         });
       });
-      cnsErr.propagate(function (err) {
-        assert.deepEqual(err, Error('Does not work!'));
+    });
+
+    it('should return an error when getLink returns an error', function (done) {
+      var mockCN = ConceptNetwork();
+      var called = false;
+      mockCN.getLink = function (linkId, cb) {
+        if (!called) {
+          called = true;
+          return cb(new Error('Does not work!'));
+        }
+        return;
+      };
+      var cnsErr = ConceptNetworkState(mockCN);
+      mockCN.addNode("Node 1", function (err1, node1) {
+        if (err1) { return done(err1); }
+        mockCN.addNode("Node 2", function (err2, node2) {
+          if (err2) { return done(err2); }
+          mockCN.addLink(node1.id, node2.id, function (err3, link) {
+            if (err3) { return done(err3); }
+            cnsErr.activate(node1.id, function (err4) {
+              if (err4) { return done(err4); }
+              var doneCalled = false;
+              cnsErr.propagate(function (err5) {
+                if (!doneCalled) {
+                  assert.deepEqual(err5, Error('Does not work!'));
+                  done();
+                  doneCalled = true;
+                }
+              });
+            });
+          });
+        });
+      });
+    });
+
+    it('should return an error when getNodeFromLinks returns an error',
+    function (done) {
+      var mockCN = ConceptNetwork();
+      var called = false;
+      mockCN.getNodeFromLinks = function (nodeId, cb) {
+        if (!called) {
+          called = true;
+          return cb(new Error('Does not work!'));
+        }
+        return;
+      };
+      var cnsErr = ConceptNetworkState(mockCN);
+      mockCN.addNode("Node 1", function (err1, node1) {
+        if (err1) { return done(err1); }
+        mockCN.addNode("Node 2", function (err2, node2) {
+          if (err2) { return done(err2); }
+          mockCN.addLink(node1.id, node2.id, function (err3, link) {
+            if (err3) { return done(err3); }
+            cnsErr.activate(node1.id, function (err4) {
+              if (err4) { return done(err4); }
+              var doneCalled = false;
+              cnsErr.propagate(function (err5) {
+                if (!doneCalled) {
+                  assert.deepEqual(err5, Error('Does not work!'));
+                  done();
+                  doneCalled = true;
+                }
+              });
+            });
+          });
+        });
       });
     });
 
