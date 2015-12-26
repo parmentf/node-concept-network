@@ -10,37 +10,37 @@
 var assert = require('assert');
 
 // Module to test
-var ConceptNetwork = require('../lib/concept-network').ConceptNetwork;
-var ConceptNetworkState = require('../lib/concept-network-state')
-                          .ConceptNetworkState;
+var createConceptNetwork = require('../lib/concept-network').ConceptNetwork;
+var createConceptNetworkState = require('../lib/concept-network-state')
+                                .ConceptNetworkState;
 
 // ## ConceptNetwork
 describe('ConceptNetworkState', function () {
-  // ### Constructor
-  describe('#Constructor', function () {
+  // ### Factory
+  describe('#Factory', function () {
 
     it('should throw an exception if no ConceptNetwork is given', function () {
       assert.throws(function () {
-        var cns = ConceptNetworkState();
+        var cns = createConceptNetworkState();
       },
       Error);
     });
 
     it('should not throw an exception', function () {
       assert.doesNotThrow(function () {
-        var cn = ConceptNetwork();
-        var cns = ConceptNetworkState(cn);
+        var cn = createConceptNetwork();
+        var cns = createConceptNetworkState(cn);
       }, null, "unexpected error");
     });
 
-    it('should be called from a derived constructor', function () {
-      var DerivedConceptNetworkState = function (cn) {
-        // Inherit ConceptNetwork
-        ConceptNetworkState.call(this, cn);
+    it('can be derived', function () {
+      var deriveConceptNetworkState = function (cns) {
+        cns.derived = true;
       };
-      var cn = ConceptNetwork();
-      var derived = new DerivedConceptNetworkState(cn);
-      assert.deepEqual(derived, {});
+      var cn = createConceptNetwork();
+      var cns = createConceptNetworkState(cn);
+      var derived = deriveConceptNetworkState(cns);
+      assert(cns.derived);
     });
 
   });
@@ -49,8 +49,8 @@ describe('ConceptNetworkState', function () {
 
     var cn, cns, node1;
     before(function (done) {
-      cn = ConceptNetwork();
-      cns = ConceptNetworkState(cn);
+      cn = createConceptNetwork();
+      cns = createConceptNetworkState(cn);
       cn.addNode("Node 1", function (err, node) {
         node1 = node;
         done(err);
@@ -83,8 +83,8 @@ describe('ConceptNetworkState', function () {
     describe('##getActivationValue', function () {
 
       before(function (done) {
-        cn = ConceptNetwork();
-        cns = ConceptNetworkState(cn);
+        cn = createConceptNetwork();
+        cns = createConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -123,8 +123,8 @@ describe('ConceptNetworkState', function () {
     describe('##getOldActivationValue', function () {
 
       before(function (done) {
-        cn = ConceptNetwork();
-        cns = ConceptNetworkState(cn);
+        cn = createConceptNetwork();
+        cns = createConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -157,8 +157,8 @@ describe('ConceptNetworkState', function () {
     describe('##getMaximumActivationValue', function () {
 
       before(function (done) {
-        cn = ConceptNetwork();
-        cns = ConceptNetworkState(cn);
+        cn = createConceptNetwork();
+        cns = createConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -216,7 +216,7 @@ describe('ConceptNetworkState', function () {
 
       it('should return an error when getNodeFromId returns an error',
       function (done) {
-        var mockCN = ConceptNetwork();
+        var mockCN = createConceptNetwork();
         var called = false;
         mockCN.getNodeFromId = function (nodeId, cb) {
           if (!called) {
@@ -225,7 +225,7 @@ describe('ConceptNetworkState', function () {
           }
           return;
         };
-        var cnsErr = ConceptNetworkState(mockCN);
+        var cnsErr = createConceptNetworkState(mockCN);
         mockCN.addNode("Node 1", function (err1, node1) {
           if (err1) { return done(err1); }
           mockCN.addNode("Node 2", function (err2, node2) {
@@ -253,8 +253,8 @@ describe('ConceptNetworkState', function () {
     describe('##getActivatedTypedNodes', function () {
 
       before(function (done) {
-        cn = ConceptNetwork();
-        cns = ConceptNetworkState(cn);
+        cn = createConceptNetwork();
+        cns = createConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -330,7 +330,7 @@ describe('ConceptNetworkState', function () {
 
       it('should return an error when getNodeFromId returns an error',
       function (done) {
-        var mockCN = ConceptNetwork();
+        var mockCN = createConceptNetwork();
         var called = false;
         mockCN.getNodeFromId = function (nodeId, cb) {
           if (!called) {
@@ -339,7 +339,7 @@ describe('ConceptNetworkState', function () {
           }
           return;
         };
-        var cnsErr = ConceptNetworkState(mockCN);
+        var cnsErr = createConceptNetworkState(mockCN);
         mockCN.addNode("Node 1", function (err1, node1) {
           if (err1) { return done(err1); }
           mockCN.addNode("Node 2", function (err2, node2) {
@@ -383,8 +383,8 @@ describe('ConceptNetworkState', function () {
     describe('##setActivationValue', function () {
 
       before(function (done) {
-        cn = ConceptNetwork();
-        cns = ConceptNetworkState(cn);
+        cn = createConceptNetwork();
+        cns = createConceptNetworkState(cn);
         cn.addNode("Node 1", function (err, node) {
           if (err) { return done(err); }
           node1 = node;
@@ -422,8 +422,8 @@ describe('ConceptNetworkState', function () {
 
     var cn, cns, node1, node2;
     before(function (done) {
-      cn = ConceptNetwork();
-      cns = ConceptNetworkState(cn);
+      cn = createConceptNetwork();
+      cns = createConceptNetworkState(cn);
       cn.addNode("Node 1", function (err, node) {
         if (err) { return done(err); }
         node1 = node;
@@ -514,11 +514,11 @@ describe('ConceptNetworkState', function () {
 
     it('should return an error when getNodes returns an error',
     function (done) {
-      var mockCN = ConceptNetwork ();
+      var mockCN = createConceptNetwork ();
       mockCN.getNodes = function (cb) {
         return cb(new Error('Does not work!'));
       };
-      var cnsErr = ConceptNetworkState(mockCN);
+      var cnsErr = createConceptNetworkState(mockCN);
       mockCN.addNode("Node 1", function (err1, node1) {
         if (err1) { return done(err1); }
         mockCN.addNode("Node 2", function (err2, node2) {
@@ -535,7 +535,7 @@ describe('ConceptNetworkState', function () {
     });
 
     it('should return an error when getLink returns an error', function (done) {
-      var mockCN = ConceptNetwork();
+      var mockCN = createConceptNetwork();
       var called = false;
       mockCN.getLink = function (linkId, cb) {
         if (!called) {
@@ -544,7 +544,7 @@ describe('ConceptNetworkState', function () {
         }
         return;
       };
-      var cnsErr = ConceptNetworkState(mockCN);
+      var cnsErr = createConceptNetworkState(mockCN);
       mockCN.addNode("Node 1", function (err1, node1) {
         if (err1) { return done(err1); }
         mockCN.addNode("Node 2", function (err2, node2) {
@@ -569,7 +569,7 @@ describe('ConceptNetworkState', function () {
 
     it('should return an error when getNodeFromLinks returns an error',
     function (done) {
-      var mockCN = ConceptNetwork();
+      var mockCN = createConceptNetwork();
       var called = false;
       mockCN.getNodeFromLinks = function (nodeId, cb) {
         if (!called) {
@@ -578,7 +578,7 @@ describe('ConceptNetworkState', function () {
         }
         return;
       };
-      var cnsErr = ConceptNetworkState(mockCN);
+      var cnsErr = createConceptNetworkState(mockCN);
       mockCN.addNode("Node 1", function (err1, node1) {
         if (err1) { return done(err1); }
         mockCN.addNode("Node 2", function (err2, node2) {
