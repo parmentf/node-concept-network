@@ -62,6 +62,7 @@ describe('ConceptNetworkState', function () {
         if (err) { return done(err); }
         assert.equal(nodeState.activationValue, 100);
         cns.getActivationValue(node1.id, function (err2, value) {
+          if (err2) { return done(err2); }
           assert.equal(value, 100);
           done(err);
         });
