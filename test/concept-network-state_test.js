@@ -59,6 +59,7 @@ describe('ConceptNetworkState', function () {
 
     it('should put the node activation to 100', function (done) {
       cns.activate(node1.id, function (err, nodeState) {
+        if (err) { return done(err); }
         assert.equal(nodeState.activationValue, 100);
         cns.getActivationValue(node1.id, function (err2, value) {
           assert.equal(value, 100);
@@ -69,6 +70,7 @@ describe('ConceptNetworkState', function () {
 
     it('should cap the activation of an activated node', function (done) {
       cns.activate(node1.id, function (err, nodeState) {
+        if (err) { return done(err); }
         assert.equal(nodeState.activationValue, 100);
         done(err);
       });
@@ -471,6 +473,7 @@ describe('ConceptNetworkState', function () {
       cns.propagate({decay: 200}, function (err) {
         if (err) { return done(err); }
         cns.getActiveNumber(function (err2, number) {
+          if (err2) { return done(err2); }
           assert.equal(number, 0, 'all nodes should be deactivated');
           done(err);
         });
