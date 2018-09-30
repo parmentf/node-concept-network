@@ -21,18 +21,18 @@
   },
   "scripts": {
     "coverage-report": "cat ./coverage/lcov.info | codecov",
-    "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
+    "doc": "docker -i lib -o doc -c monokai -s yes -I -u -x node_modules -x coverage -x doc -x config -w --extras fileSearch",
     "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-s": "mocha --reporter spec",
     "test-w": "mocha --growl --watch",
     "lint": "jshint lib/"
   },
   "dependencies": {
-    "debug": "^2.2.0"
+    "debug": "4.0.1"
   },
   "devDependencies": {
     "codecov.io": "^0.1.6",
-    "docker": "0.2.x",
+    "docker": "1.0.0",
     "ghooks": "^1.0.1",
     "istanbul": "^0.4.1",
     "jshint": "^2.9.1-rc1",
