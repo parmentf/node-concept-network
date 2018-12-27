@@ -1,4 +1,4 @@
-import { cnAddNode } from '../lib/concept-network';
+import { cnAddNode, cnDecrementNode } from '../lib/concept-network';
 
 describe('Concept Network', () => {
     describe('addNode', () => {
@@ -20,7 +20,7 @@ describe('Concept Network', () => {
                     }, {
                         label: 'Chuck Norris', occ: 1
                     }]
-                })
+                });
         });
 
         it('should increment occ', () => {
@@ -29,7 +29,40 @@ describe('Concept Network', () => {
                     node: [{
                         label: 'A', occ: 2
                     }]
-                })
+                });
+        });
+    });
+
+    describe('decrementNode', () => {
+        it('should decrement a node with occ of 3', () => {
+            expect(cnDecrementNode({
+                node: [{ label: 'Chuck Norris', occ: 3 }]
+            }, 'Chuck Norris'))
+                .toEqual({
+                    node: [{ label: 'Chuck Norris', occ: 2 }]
+                });
+        });
+
+        it('should remove a node with an occ of 1', () => {
+            expect(cnDecrementNode({
+                node: [{ label: 'World', occ: 1 }]
+            }, 'World'))
+                .toEqual({
+                    node: []
+                });
+        });
+
+        it('should return the network when the node does not exist', () => {
+            expect(cnDecrementNode({
+                node: [{ label: 'World', occ: 1}]
+            }, 'Foo'))
+                .toEqual({
+                    node: [{ label: 'World', occ: 1}]
+                });
+        });
+
+        it('should return the network when no node exist', () => {
+            expect(cnDecrementNode({}, 'Bar')).toEqual({});
         });
     });
 });

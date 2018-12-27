@@ -34,3 +34,19 @@ export function cnAddNode(cn: ConceptNetwork, label: string): ConceptNetwork {
 
     return res;
 }
+
+export function cnDecrementNode(cn: ConceptNetwork, label: string): ConceptNetwork {
+    const res = Object.assign({}, cn);
+    if (!res.node) {
+        return res;
+    }
+    const node = res.node.find(n => n.label === label);
+    if (node) {
+        node.occ = node.occ - 1;
+        if (node.occ === 0) {
+            const nodeIndex = res.node.findIndex(n => n.label === label);
+            res.node.splice(nodeIndex, 1);
+        }
+    }
+    return res;
+}
