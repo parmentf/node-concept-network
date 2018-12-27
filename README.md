@@ -3,7 +3,10 @@
 Concept Network is weighted directed graph, in which activation values are propagated. Written in [Node.js](http://nodejs.org).
 
 ## Getting Started
+
 Install the module with: `npm install concept-network`
+
+TODO: Update this example
 
 ```javascript
 var ConceptNetwork = require('concept-network').ConceptNetwork;
@@ -19,19 +22,15 @@ cns.activate(node1.id);
 cns.propagate();
 ```
 
-## Documentation
-_(Coming soon)_
-
-## Examples
-_(Coming soon)_
-
 ## Contributing
+
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint, and test your code using `npm test`.
 
 ## Release History
 
 See also [Releases](https://github.com/parmentf/node-concept-network/releases)
 
+* 2081/12/27: version 1.2.2: Go back to synchronous ConceptNetwork
 * 2015/11/28: version 1.2.1: Update dependencies versions
 * 2015/02/20: version 1.2.0: Add options to propagate()
 * 2015/02/07: version 1.1.0: Make getLink accept two parameters
@@ -43,5 +42,6 @@ See also [Releases](https://github.com/parmentf/node-concept-network/releases)
 Warning: this is a work in progress.
 
 ## License
+
 Copyright (c) 2012 François Parmentier
 Licensed under the MIT license.
