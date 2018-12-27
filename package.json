@@ -1,36 +1,40 @@
 {
-  "name": "concept-network",
-  "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
-  "version": "1.2.1",
-  "homepage": "https://github.com/parmentf/node-concept-network",
-  "author": {
-    "name": "François Parmentier",
-    "email": "francois.parmentier@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/parmentf/node-concept-network.git"
-  },
-  "bugs": {
-    "url": "https://github.com/parmentf/node-concept-network/issues"
-  },
-  "license": "MIT",
-  "main": "index",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "scripts": {
-    "test": "jest --coverage"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "jest": "23.6.0",
-    "typescript": "3.2.2"
-  },
-  "keywords": [
-    "graph",
-    "weighted",
-    "propagation"
-  ],
-  "readmeFilename": "README.md"
+    "name": "concept-network",
+    "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
+    "version": "1.2.2",
+    "homepage": "https://github.com/parmentf/node-concept-network",
+    "author": {
+        "name": "François Parmentier",
+        "email": "francois.parmentier@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/parmentf/node-concept-network.git"
+    },
+    "bugs": {
+        "url": "https://github.com/parmentf/node-concept-network/issues"
+    },
+    "license": "MIT",
+    "main": "index",
+    "engines": {
+        "node": ">= 4.2.0"
+    },
+    "scripts": {
+        "build:w": "tsc --watch",
+        "build": "tsc",
+        "prepublish": "npm run build",
+        "pretest": "npm run build",
+        "test": "jest --coverage"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "jest": "23.6.0",
+        "typescript": "3.2.2"
+    },
+    "keywords": [
+        "graph",
+        "weighted",
+        "propagation"
+    ],
+    "readmeFilename": "README.md"
 }

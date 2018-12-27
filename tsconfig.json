@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "outDir": "./lib",
+        "declaration": true,
+        "target": "es2018",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
