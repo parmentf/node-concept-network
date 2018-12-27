@@ -35,6 +35,14 @@ export function cnAddNode(cn: ConceptNetwork, label: string): ConceptNetwork {
     return res;
 }
 
+/**
+ * Decrement the `occ` of the node which `label` is given by one.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string} label
+ * @returns {ConceptNetwork} the new ConceptNetwork
+ */
 export function cnDecrementNode(cn: ConceptNetwork, label: string): ConceptNetwork {
     const res = Object.assign({}, cn);
     if (!res.node) {
