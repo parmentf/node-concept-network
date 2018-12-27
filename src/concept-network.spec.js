@@ -1,7 +1,7 @@
-import { cnAddNode, cnDecrementNode } from '../lib/concept-network';
+import { cnAddNode, cnDecrementNode, cnRemoveNode } from '../lib/concept-network';
 
 describe('Concept Network', () => {
-    describe('addNode', () => {
+    describe('add node', () => {
         it('should return an object', () => {
             const resultingCN = cnAddNode({}, 'Chuck Norris');
             expect(resultingCN).toEqual({
@@ -33,7 +33,7 @@ describe('Concept Network', () => {
         });
     });
 
-    describe('decrementNode', () => {
+    describe('decrement node', () => {
         it('should decrement a node with occ of 3', () => {
             expect(cnDecrementNode({
                 node: [{ label: 'Chuck Norris', occ: 3 }]
@@ -65,4 +65,44 @@ describe('Concept Network', () => {
             expect(cnDecrementNode({}, 'Bar')).toEqual({});
         });
     });
+
+    describe('remove node', () =>  {
+        it('should remove even a node with occ value of 2', () => {
+            expect(cnRemoveNode({
+                node: [{ label: 'a', occ: 2 }]
+            }, 'a')).toEqual({
+                node: []
+            });
+        });
+
+        it.skip('should remove the links from the removed node', () => {
+            expect(cnRemoveNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a')).toEqual({
+                node: [undefined, { label: 'b', occ: 2 }],
+            });
+        });
+
+        it.skip('should remove the links to the removed node', () => {
+            expect(cnRemoveNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, undefined],
+            });
+        });
+
+        it('should return same concept when no node', () => {
+            expect(cnRemoveNode({}, 'a')).toEqual({});
+        });
+
+        it('should return same concept when node does not exist', () => {
+            expect(cnRemoveNode({
+                node: [{ label: 'a', occ: 1 }]
+            }, 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }],
+            });
+        });
+    })
 });

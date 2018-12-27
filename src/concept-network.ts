@@ -3,8 +3,15 @@ interface ConceptNetworkNode {
     occ: number
 }
 
+interface ConceptNetworkLink {
+    from: number,
+    to: number,
+    coOcc: number,
+}
+
 interface ConceptNetwork {
-    node?: ConceptNetworkNode[]
+    node?: ConceptNetworkNode[],
+    link?: ConceptNetworkLink[],
 }
 
 /**
@@ -56,5 +63,27 @@ export function cnDecrementNode(cn: ConceptNetwork, label: string): ConceptNetwo
             res.node.splice(nodeIndex, 1);
         }
     }
+    return res;
+}
+
+/**
+ * Remove the node which `label` is given (and the links to it)
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string} label
+ * @returns {ConceptNetwork} the new ConceptNetwork
+ */
+export function cnRemoveNode(cn: ConceptNetwork, label: string): ConceptNetwork {
+    const res = Object.assign({}, cn);
+    if (!res.node) {
+        return res;
+    }
+    const nodeIndex = res.node.findIndex(n => n.label === label);
+    if (nodeIndex === -1) {
+        return res;
+    }
+    // TODO: remove links from and to the node
+    res.node.splice(nodeIndex, 1);
     return res;
 }
