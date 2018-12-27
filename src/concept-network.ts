@@ -87,3 +87,28 @@ export function cnRemoveNode(cn: ConceptNetwork, label: string): ConceptNetwork 
     res.node.splice(nodeIndex, 1);
     return res;
 }
+
+/**
+ * Create a link between `from` and `to`, and increment `coOcc` by one.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string} from
+ * @param {string} to
+ * @returns {ConceptNetwork} the new ConceptNetwork
+ */
+export function cnAddLink(cn: ConceptNetwork, from: string, to: string): ConceptNetwork {
+    const res = Object.assign({}, cn);
+    if (!res.node) return res;
+    const fromIndex = res.node.findIndex(n => n.label === from);
+    const toIndex = res.node.findIndex(n => n.label === to);
+    if (fromIndex === -1 || toIndex === -1) return res;
+    if (!res.link) res.link = [];
+    const link = res.link.find(l => l.from === fromIndex && l.to === toIndex);
+    if (!link) {
+        res.link.push({ from: fromIndex, to: toIndex, coOcc: 1});
+    } else {
+        link.coOcc = link.coOcc + 1;
+    }
+    return res;
+}

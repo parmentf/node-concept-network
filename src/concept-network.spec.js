@@ -1,4 +1,4 @@
-import { cnAddNode, cnDecrementNode, cnRemoveNode } from '../lib/concept-network';
+import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveNode } from '../lib/concept-network';
 
 describe('Concept Network', () => {
     describe('add node', () => {
@@ -104,5 +104,50 @@ describe('Concept Network', () => {
                 node: [{ label: 'a', occ: 1 }],
             });
         });
-    })
+    });
+
+    describe('add link', () => {
+        it('should create the link', () => {
+            expect(cnAddLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+
+        it('should increment coOcc', () => {
+            expect(cnAddLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            });
+        });
+
+        it('should return same object when to node not found', () => {
+            expect(cnAddLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a', 'c')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+
+        it('should return same object when from node not found', () => {
+            expect(cnAddLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'c', 'a')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+
+        it('should return same object when no nodes', () => {
+            expect(cnAddLink({}, 'a', 'b')).toEqual({});
+        })
+    });
 });
