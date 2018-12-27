@@ -31,7 +31,7 @@
     "test-w": "mocha --growl --watch"
   },
   "dependencies": {
-    "debug": "^4.1.1"
+    "debug": "4.1.1"
   },
   "devDependencies": {
     "mocha": "1.7.x",
