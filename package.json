@@ -34,9 +34,9 @@
     "debug": "4.1.1"
   },
   "devDependencies": {
-    "mocha": "1.7.x",
     "docker": "0.2.x",
-    "jshint": "0.9.x"
+    "jshint": "0.9.x",
+    "mocha": "5.2.0"
   },
   "keywords": [
     "graph",
