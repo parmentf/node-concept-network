@@ -20,7 +20,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {},
   "devDependencies": {
