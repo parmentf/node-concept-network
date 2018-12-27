@@ -34,7 +34,6 @@
     "debug": "4.1.1"
   },
   "devDependencies": {
-    "docker": "0.2.x",
     "jshint": "2.9.7",
     "mocha": "5.2.0"
   },
