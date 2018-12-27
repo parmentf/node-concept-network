@@ -20,33 +20,16 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "coverage-report": "cat ./coverage/lcov.info | codecov",
-    "doc": "docker -i lib -o doc -c monokai -s yes -I -u -x node_modules -x coverage -x doc -x config -w --extras fileSearch",
-    "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
-    "test-s": "mocha --reporter spec",
-    "test-w": "mocha --growl --watch",
-    "lint": "jshint lib/"
+    "test": "jest"
   },
-  "dependencies": {
-    "debug": "4.0.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "codecov.io": "^0.1.6",
-    "docker": "1.0.0",
-    "ghooks": "^1.0.1",
-    "istanbul": "^0.4.1",
-    "jshint": "2.9.6",
-    "mocha": "5.2.0"
+    "jest": "23.6.0"
   },
   "keywords": [
     "graph",
     "weighted",
     "propagation"
   ],
-  "readmeFilename": "README.md",
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm test"
-    }
-  }
+  "readmeFilename": "README.md"
 }
