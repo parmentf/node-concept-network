@@ -20,10 +20,12 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "doc": "docker -o doc -c monokai -s yes -I -u -x node_modules -w --extras fileSearch",
-    "test": "mocha",
+    "coverage-report": "cat ./coverage/lcov.info | codecov",
+    "doc": "docker -i lib -o doc -c monokai -s yes -I -u -x node_modules -x coverage -x doc -x config -w --extras fileSearch",
+    "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-s": "mocha --reporter spec",
-    "test-w": "mocha --growl --watch"
+    "test-w": "mocha --growl --watch",
+    "lint": "jshint lib/"
   },
   "dependencies": {
     "debug": "4.1.1"

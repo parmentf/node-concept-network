@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>concept-network.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "";
+    var thisFile = "C:\\Users\\François\\Documents\\GitHub\\node-concept-network\\\\concept-network.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+
+  <script src="fileSearch.js"></script>
+
+  <link rel="stylesheet" href="fileSearch.css" />
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h2">
+        <a href="#conceptnetworks-constructor">ConceptNetwork&#39;s constructor</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#conceptnetworks-methods">ConceptNetwork&#39;s methods</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#addnode">addNode</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#decrementnode">decrementNode</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#removenode">removeNode</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#addlink">addLink</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#decrementlink">decrementLink</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#removelink">removeLink</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getnode">getNode</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getlinkidsync">getLinkIdSync</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getlink">getLink</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getnodefromlinks">getNodeFromLinks</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getnodetolinks">getNodeToLinks</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>concept-network.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>jshint node:true, maxlen:80, curly: true, eqeqeq: true, immed: true,
+latedef: true, newcap: true, noarg: true, sub: true, undef: true,
+eqnull: true, laxcomma: true, indent: 2, white:true</p>
+</div>
+<div class="body">
+</div>
+</div>
+<div class="dox">
+<div class="summary">
+<p>concept-network
+https://github.com/parmentf/node-concept-network</p>
+</div>
+<div class="body">
+<p>Copyright (c) 2012 François Parmentier
+Licensed under the MIT license.</p>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-meta">"use strict"</span>;
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="conceptnetworks-constructor">
+  <h2>
+    <a href="#conceptnetworks-constructor" name="conceptnetworks-constructor" class="pilcrow"></a>
+ConceptNetwork's constructor
+  </h2>
+</div>
+</div>
+<div class="body">
+<p>Use it to instanciate a Concept Network.</p>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ConceptNetwork</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> ConceptNetwork)) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ConceptNetwork();
+  }
+
+  <span class="hljs-keyword">this</span>.node = {}; <span class="hljs-comment">// id -&gt; id, label, occ</span>
+  <span class="hljs-keyword">this</span>.link = {}; <span class="hljs-comment">// linkId -&gt; fromId, toId, coOcc</span>
+  <span class="hljs-keyword">this</span>.nodeLastId = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">this</span>.labelIndex = {}; <span class="hljs-comment">// label -&gt; id</span>
+  <span class="hljs-keyword">this</span>.fromIndex  = {}; <span class="hljs-comment">// fromId -&gt; linkId</span>
+  <span class="hljs-keyword">this</span>.toIndex    = {}; <span class="hljs-comment">// toId   -&gt; linkId</span>
+
+}
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="conceptnetworks-methods">
+  <h2>
+    <a href="#conceptnetworks-methods" name="conceptnetworks-methods" class="pilcrow"></a>
+ConceptNetwork's methods
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">ConceptNetwork.prototype = {
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="addnode">
+  <h3>
+    <a href="#addnode" name="addnode" class="pilcrow"></a>
+addNode
+  </h3>
+</div>
+</div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">label</span>
+<span class="dox_type">string</span>
+<span>Symbol for the node
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">inc</span>
+<span class="dox_type">number</span>
+<span>Increment (Optional, 1 by default)
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, {id, label, occ})                         id = identifier, occ = occurrence
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  addNode : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">label, inc, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> id;
+    <span class="hljs-keyword">if</span> (!cb) {
+      cb  = inc;
+      inc = <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+      inc = inc || <span class="hljs-number">1</span>;
+    }
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<p>node already exists</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.labelIndex.hasOwnProperty(label)) {
+      id = <span class="hljs-keyword">this</span>.labelIndex[label];
+      <span class="hljs-keyword">this</span>.node[id].occ += inc;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">this</span>.nodeLastId += <span class="hljs-number">1</span>;
+      id = <span class="hljs-keyword">this</span>.nodeLastId;
+      <span class="hljs-keyword">this</span>.node[id] = {
+        <span class="hljs-attr">id</span>: id,
+        <span class="hljs-attr">label</span>: label,
+        <span class="hljs-attr">occ</span>: inc
+      };
+      <span class="hljs-keyword">this</span>.labelIndex[label] = id;
+    }
+    cb(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.node[id]);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="decrementnode">
+  <h3>
+    <a href="#decrementnode" name="decrementnode" class="pilcrow"></a>
+decrementNode
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Decrement the occurrence of a node. Remove it if its counts down to zero.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">label</span>
+<span class="dox_type">string</span>
+<span>identifier of the node.
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, node) the modified node.                         Or <code>null</code> if it has been removed.
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  decrementNode : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">label, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> id;
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
+</div>
+<p>node already exists</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.labelIndex.hasOwnProperty(label)) {
+      id = <span class="hljs-keyword">this</span>.labelIndex[label];
+      <span class="hljs-keyword">this</span>.node[id].occ -= <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.node[id].occ === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">this</span>.removeNode(id, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
+          <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>);
+        });
+        <span class="hljs-keyword">return</span>;
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>);
+    }
+    cb(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.node[id]);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="removenode">
+  <h3>
+    <a href="#removenode" name="removenode" class="pilcrow"></a>
+removeNode
+  </h3>
+</div>
+</div>
+<div class="body">
+<p><em>Private</em></p>
+<p>Remove the node which <em>id</em> is given from the ConceptNetwork.
+Also remove the links from and to this node.
+Also remove the node from the <em>labelIndex</em>.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">id</span>
+<span class="dox_type">Number</span>
+<span>Identifier of the node
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err)
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  removeNode : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">id, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> linksToRemove = [];
+    <span class="hljs-keyword">var</span> i;
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
+</div>
+<p>remove links from id</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.fromIndex[id]) {
+      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.fromIndex[id].length; i += <span class="hljs-number">1</span>) {
+        linksToRemove.push(<span class="hljs-keyword">this</span>.fromIndex[id][i]);
+      }
+    }
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<p>remove links to id</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.toIndex[id]) {
+      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.toIndex[id].length; i += <span class="hljs-number">1</span>) {
+        linksToRemove.push(<span class="hljs-keyword">this</span>.toIndex[id][i]);
+      }
+    }
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; linksToRemove.length; i += <span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">this</span>.removeLink(linksToRemove[i], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
+      });
+    }
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
+</div>
+<p>remove from the labelIndex and from the node array.</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">var</span> label = <span class="hljs-keyword">this</span>.node[id].label;
+    <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.node[id];
+    <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.labelIndex[label];
+    cb();
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="addlink">
+  <h3>
+    <a href="#addlink" name="addlink" class="pilcrow"></a>
+addLink
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Add a link between fromId and toId</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">fromId</span>
+<span class="dox_type">Number</span>
+<span>Identifier of the afferent node
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">toId</span>
+<span class="dox_type">Number</span>
+<span>Identifier of the efferent node
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">inc</span>
+<span class="dox_type">Number</span>
+<span>Increment (optional, 1 by default)
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, link)                          the added link {fromId, toId, coOcc}
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  addLink : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fromId, toId, inc, cb</span>) </span>{
+    <span class="hljs-keyword">if</span> (!cb) {
+      cb = inc;
+      inc = <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">else</span> {
+      inc = inc || <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> fromId !== <span class="hljs-string">'number'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'fromId should be a number'</span>), <span class="hljs-literal">null</span>);
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> toId !== <span class="hljs-string">'number'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'toId should be a number'</span>), <span class="hljs-literal">null</span>);
+    }
+    <span class="hljs-keyword">var</span> linkId = fromId + <span class="hljs-string">'_'</span> + toId;
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
+</div>
+<p>Link does not exist yet</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.link[linkId] === <span class="hljs-string">'undefined'</span>) {
+      <span class="hljs-keyword">this</span>.link[linkId] = {
+        <span class="hljs-attr">fromId</span> : fromId,
+        <span class="hljs-attr">toId</span>   : toId,
+        <span class="hljs-attr">coOcc</span>  : inc
+      };
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>fromIndex</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">      <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.fromIndex.hasOwnProperty(fromId)) {
+        <span class="hljs-keyword">this</span>.fromIndex[fromId] = [];
+      }
+      <span class="hljs-keyword">this</span>.fromIndex[fromId].push(linkId);
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>toIndex</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">      <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.toIndex.hasOwnProperty(toId)) {
+        <span class="hljs-keyword">this</span>.toIndex[toId] = [];
+      }
+      <span class="hljs-keyword">this</span>.toIndex[toId].push(linkId);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">this</span>.link[linkId].coOcc += inc;
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.link[linkId]);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="decrementlink">
+  <h3>
+    <a href="#decrementlink" name="decrementlink" class="pilcrow"></a>
+decrementLink
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Decrement the coOcc of a link.</p>
+<p><em>linkId</em> is a string composed of fromNodeId + &quot;_&quot; + toNodeId</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">linkId</span>
+<span class="dox_type">string</span>
+<span>Identifier of the link to change
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, link)                          the modified link
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  decrementLink : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">linkId, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> link = <span class="hljs-keyword">this</span>.link[linkId];
+    link.coOcc -= <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (link.coOcc === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.removeLink(linkId, cb);
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, link);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="removelink">
+  <h3>
+    <a href="#removelink" name="removelink" class="pilcrow"></a>
+removeLink
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>{Private}</p>
+<p>Remove the link which <em>linkId</em> is given from the ConceptNetwork.</p>
+<p>Also remove the <em>linkId</em> from <em>fromIndex</em> and <em>toIndex</em>.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">linkId</span>
+<span class="dox_type">string</span>
+<span>Identifier of the link
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err)
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  removeLink : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fromId, toId, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> linkId;
+    <span class="hljs-keyword">if</span> (!cb) {
+      linkId = fromId;
+      cb = toId;
+    }
+    <span class="hljs-keyword">else</span> {
+      linkId = <span class="hljs-keyword">this</span>.getLinkIdSync(fromId, toId);
+    }
+    <span class="hljs-keyword">var</span> link = <span class="hljs-keyword">this</span>.link[linkId];
+    <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.fromIndex[link.fromId];
+    <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.toIndex[link.toId];
+    <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.link[linkId];
+    cb(<span class="hljs-literal">null</span>);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="getnode">
+  <h3>
+    <a href="#getnode" name="getnode" class="pilcrow"></a>
+getNode
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Get the node from its label</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">label</span>
+<span class="dox_type">string</span>
+<span>Label of the node to get
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, node)                      the node {id, label, occ}
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  getNode : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">label, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> id = <span class="hljs-keyword">this</span>.labelIndex[label];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.node[id] === <span class="hljs-string">'undefined'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"This node does not exist"</span>), <span class="hljs-literal">null</span>);
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.node[id]);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="getlinkidsync">
+  <h3>
+    <a href="#getlinkidsync" name="getlinkidsync" class="pilcrow"></a>
+getLinkIdSync
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Get the linkId matching fromId and toId. Synchronously.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">fromId</span>
+<span class="dox_type">string</span>
+<span>Afferent node
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">toId</span>
+<span class="dox_type">string</span>
+<span>Efferent node
+</span>
+</div>
+<div class="dox_tag_title">Returns</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name"></span>
+<span class="dox_type">string</span>
+<span>Link ID.
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  getLinkIdSync : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fromId, toId</span>) </span>{
+    <span class="hljs-keyword">return</span> fromId + <span class="hljs-string">'_'</span> + toId;
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="getlink">
+  <h3>
+    <a href="#getlink" name="getlink" class="pilcrow"></a>
+getLink
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Get the link from its node ids.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">linkId</span>
+<span class="dox_type">string</span>
+<span>Identifier of the link
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, link)                          found link {fromId, toId, coOcc}
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  getLink : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fromId, toId, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> linkId;
+    <span class="hljs-keyword">if</span> (!cb) {
+      linkId = fromId;
+      cb = toId;
+    }
+    <span class="hljs-keyword">else</span> {
+      linkId = <span class="hljs-keyword">this</span>.getLinkIdSync(fromId, toId);
+    }
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.link[linkId] === <span class="hljs-string">'undefined'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Link not found"</span>), <span class="hljs-literal">null</span>);
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.link[linkId]);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="getnodefromlinks">
+  <h3>
+    <a href="#getnodefromlinks" name="getnodefromlinks" class="pilcrow"></a>
+getNodeFromLinks
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Get the array of links ids for all links going from node <em>id</em>.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">id</span>
+<span class="dox_type">Number</span>
+<span>Identifier of the node.
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, links)                      {Array} [linkId1, linkId2] or []
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  getNodeFromLinks : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">id, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> fromLinks = <span class="hljs-keyword">this</span>.fromIndex[id];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> fromLinks === <span class="hljs-string">'undefined'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, []);
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, fromLinks);
+  },
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="dox">
+<div class="summary">
+<div class="pilwrap" id="getnodetolinks">
+  <h3>
+    <a href="#getnodetolinks" name="getnodetolinks" class="pilcrow"></a>
+getNodeToLinks
+  </h3>
+</div>
+</div>
+<div class="body">
+<p>Get the array of links ids for all links going to node <em>id</em>.</p>
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">id</span>
+<span class="dox_type">Number</span>
+<span>Identifier of the node.
+</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">cb</span>
+<span class="dox_type">Function</span>
+<span>f(err, links)                      {Array} [linkId1, linkId2] or []
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  getNodeToLinks : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">id, cb</span>) </span>{
+    <span class="hljs-keyword">var</span> toLinks = <span class="hljs-keyword">this</span>.toIndex[id];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> toLinks === <span class="hljs-string">'undefined'</span>) {
+      <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, []);
+    }
+    <span class="hljs-keyword">return</span> cb(<span class="hljs-literal">null</span>, toLinks);
+  }
+
+};
+
+<span class="hljs-built_in">module</span>.exports.ConceptNetwork = ConceptNetwork;
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>
