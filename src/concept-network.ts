@@ -137,7 +137,7 @@ export function cnRemoveLink(cn: ConceptNetwork, from: string, to: string): Conc
     const fromIndex = cnGetNodeIndex(res, from);
     const toIndex = cnGetNodeIndex(res, to);
     if (fromIndex === -1 || toIndex === -1) return res;
-    const linkIndex = res.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    const linkIndex = cnGetLinkIndex2(res, fromIndex, toIndex);
     if (linkIndex === -1) return res;
     res.link.splice(linkIndex, 1);
     return res;
@@ -178,7 +178,7 @@ export function cnDecrementLink(cn: ConceptNetwork, from: string, to: string): C
     if (!cn.node || !cn.link) return cn;
     const fromIndex = cnGetNodeIndex(cn, from);
     const toIndex = cnGetNodeIndex(cn, to);
-    const linkIndex = cn.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    const linkIndex = cnGetLinkIndex2(cn, fromIndex, toIndex);
     if (linkIndex === -1) return cn;
     const res = Object.assign({}, cn);
     const link = res.link[linkIndex];
@@ -275,7 +275,7 @@ export function cnGetLinkIndex(cn: ConceptNetwork, from: string, to: string): nu
     if (!cn.node || !cn.link) return -1;
     const fromIndex = cnGetNodeIndex(cn, from);
     const toIndex = cnGetNodeIndex(cn, to);
-    const linkIndex = cn.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    const linkIndex = cnGetLinkIndex2(cn, fromIndex, toIndex);
     return linkIndex;
 }
 
