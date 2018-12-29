@@ -3,6 +3,7 @@ import {
     cnAddNode,
     cnDecrementLink,
     cnDecrementNode,
+    cnGetLink,
     cnGetNode,
     cnRemoveLink,
     cnRemoveLinksOfNode,
@@ -321,6 +322,36 @@ describe('Concept Network', () => {
         it('should return undefined when no nodes', () => {
             expect(cnGetNode({
             }, 'Nonexistent')).toEqual(undefined);
+        });
+    });
+
+    describe('get link', () => {
+        it('should get link', () => {
+            expect(cnGetLink({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a', 'b')).toEqual({
+                from: 0, to: 1, coOcc: 2
+            });
+        });
+
+        it('should return undefined when node does not exist', () => {
+            expect(cnGetLink({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a', 'z')).toEqual(undefined);
+        });
+
+        it('should return undefined when no nodes', () => {
+            expect(cnGetLink({
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a', 'z')).toEqual(undefined);
+        });
+
+        it('should return undefined when no links', () => {
+            expect(cnGetLink({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+            }, 'a', 'z')).toEqual(undefined);
         });
     });
 });
