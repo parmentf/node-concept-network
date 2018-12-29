@@ -1,4 +1,4 @@
-import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveLink, cnRemoveNode } from '../lib/concept-network';
+import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveLink, cnRemoveLinksOfNode, cnRemoveNode } from '../lib/concept-network';
 
 describe('Concept Network', () => {
     describe('add node', () => {
@@ -81,15 +81,17 @@ describe('Concept Network', () => {
                 link: [{ from: 0, to: 1, coOcc: 1}]
             }, 'a')).toEqual({
                 node: [undefined, { label: 'b', occ: 2 }],
+                link: []
             });
         });
 
-        it.skip('should remove the links to the removed node', () => {
+        it('should remove the links to the removed node', () => {
             expect(cnRemoveNode({
                 node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
                 link: [{ from: 0, to: 1, coOcc: 1}]
             }, 'b')).toEqual({
-                node: [{ label: 'a', occ: 1 }, undefined],
+                node: [{ label: 'a', occ: 1 }],
+                link: []
             });
         });
 
@@ -187,6 +189,58 @@ describe('Concept Network', () => {
             }, 'a', 'c')).toEqual({
                 node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
                 link: [{ from: 0, to: 1, coOcc: 2}]
+            });
+        });
+
+        it('should remove one link among others', () => {
+            expect(cnRemoveLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 1, to: 2, coOcc: 1}]
+            });
+        });
+    });
+
+    describe('remove links of node', () => {
+        it('should remove link from', () => {
+            expect(cnRemoveLinksOfNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'a')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: []
+            });
+        });
+
+        it('should remove link to', () => {
+            expect(cnRemoveLinksOfNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: []
+            });
+        });
+
+        it('should remove link from & to', () => {
+            expect(cnRemoveLinksOfNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}, { from: 2, to: 1, coOcc: 1}]
+            }, 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: []
+            });
+        });
+
+        it('should remove link among others', () => {
+            expect(cnRemoveLinksOfNode({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}, { from: 0, to: 2, coOcc: 1}]
+            }, 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1}]
             });
         });
     });

@@ -83,9 +83,17 @@ export function cnRemoveNode(cn: ConceptNetwork, label: string): ConceptNetwork 
     if (nodeIndex === -1) {
         return res;
     }
-    // TODO: remove links from and to the node
-    res.node.splice(nodeIndex, 1);
-    return res;
+    // remove links from and to the node
+    const res2 = cnRemoveLinksOfNode(res, label);
+    res2.node[nodeIndex] = undefined;
+    // remove all ending undefined
+    const nodes = res2.node.reduceRight((nodes: ConceptNetworkNode[], node: ConceptNetworkNode) => {
+        if (!node && nodes.length === 0) return [];
+        nodes.push(node);
+        return nodes;
+    }, []);
+    res2.node = nodes.reverse();
+    return res2;
 }
 
 /**
@@ -135,5 +143,27 @@ export function cnRemoveLink(cn: ConceptNetwork, from: string, to: string): Conc
     const linkIndex = res.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
     if (linkIndex === -1) return res;
     res.link.splice(linkIndex, 1);
+    return res;
+}
+
+/**
+ * Remove all links of the node which `label` is given.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string} label    label of the node which links are to be removed
+ * @returns {ConceptNetwork}    new ConceptNetwork
+ */
+export function cnRemoveLinksOfNode(cn: ConceptNetwork, label: string): ConceptNetwork {
+    if (!cn.node || !cn.link) return cn;
+    const nodeIndex = cn.node.findIndex(n => n.label === label);
+    const linksIndices = cn.link
+        .map(l => l.from === nodeIndex || l.to === nodeIndex)
+        .map((found, i) => { if (found) return i; else return; });
+    const link = cn.link.filter((l, i) => !linksIndices.includes(i));
+    const res = {
+        ...cn,
+        link,
+    }
     return res;
 }
