@@ -1,4 +1,4 @@
-import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveNode } from '../lib/concept-network';
+import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveLink, cnRemoveNode } from '../lib/concept-network';
 
 describe('Concept Network', () => {
     describe('add node', () => {
@@ -75,7 +75,7 @@ describe('Concept Network', () => {
             });
         });
 
-        it.skip('should remove the links from the removed node', () => {
+        it('should remove the links from the removed node', () => {
             expect(cnRemoveNode({
                 node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
                 link: [{ from: 0, to: 1, coOcc: 1}]
@@ -150,4 +150,46 @@ describe('Concept Network', () => {
             expect(cnAddLink({}, 'a', 'b')).toEqual({});
         })
     });
+
+    describe('remove link', () => {
+        it('should remove the link', () => {
+            expect(cnRemoveLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: []
+            });
+        });
+
+        it('should return same network when no link', () => {
+            expect(cnRemoveLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+            });
+        });
+
+        it('should return same network when link does not exist', () => {
+            expect(cnRemoveLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'a', 'c')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            });
+        });
+
+        it('should return same network when link could exist but does not', () => {
+            expect(cnRemoveLink({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'a', 'c')).toEqual({
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            });
+        });
+    });
+
+    // describe('decrement link');
 });

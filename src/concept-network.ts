@@ -112,3 +112,28 @@ export function cnAddLink(cn: ConceptNetwork, from: string, to: string): Concept
     }
     return res;
 }
+
+/**
+ * Remove the link from `from` to `to`
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string} from label of the outgoing node
+ * @param {string} to label of the ingoing node
+ * @returns {ConceptNetwork} the new ConceptNetwork
+ */
+export function cnRemoveLink(cn: ConceptNetwork, from: string, to: string): ConceptNetwork {
+    const res = Object.assign({}, cn);
+    if (!res.link) {
+        return res;
+    }
+    const fromIndex = res.node.findIndex(n => n.label === from);
+    const toIndex = res.node.findIndex(n => n.label === to);
+    if (fromIndex === -1 || toIndex === -1) {
+        return res;
+    }
+    const linkIndex = res.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    if (linkIndex === -1) return res;
+    res.link.splice(linkIndex, 1);
+    return res;
+}
