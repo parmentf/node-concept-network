@@ -1,4 +1,12 @@
-import { cnAddLink, cnAddNode, cnDecrementNode, cnRemoveLink, cnRemoveLinksOfNode, cnRemoveNode } from '../lib/concept-network';
+import {
+    cnAddLink,
+    cnAddNode,
+    cnDecrementLink,
+    cnDecrementNode,
+    cnRemoveLink,
+    cnRemoveLinksOfNode,
+    cnRemoveNode
+} from '../lib/concept-network';
 
 describe('Concept Network', () => {
     describe('add node', () => {
@@ -245,5 +253,51 @@ describe('Concept Network', () => {
         });
     });
 
-    // describe('decrement link');
+    describe('decrement link', () => {
+        it('should decrement a coOcc value of 2', () => {
+            expect(cnDecrementLink({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: [{ from: 0, to: 1, coOcc: 2}]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+
+        it('should remove a link with a coOcc value of 0', () => {
+            expect(cnDecrementLink({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: []
+            });
+        });
+
+        it('should return same network when no node', () => {
+            expect(cnDecrementLink({
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a', 'b')).toEqual({
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+
+        it('should return same network when no link', () => {
+            expect(cnDecrementLink({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+            }, 'a', 'b')).toEqual({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+            });
+        });
+
+        it('should return same network when no link found', () => {
+            expect(cnDecrementLink({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            }, 'a', 'c')).toEqual({
+                node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            });
+        });
+    });
 });

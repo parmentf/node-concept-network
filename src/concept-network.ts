@@ -85,6 +85,7 @@ export function cnRemoveNode(cn: ConceptNetwork, label: string): ConceptNetwork 
     }
     // remove links from and to the node
     const res2 = cnRemoveLinksOfNode(res, label);
+    // remove the node, but do not shift next nodes' indices
     res2.node[nodeIndex] = undefined;
     // remove all ending undefined
     const nodes = res2.node.reduceRight((nodes: ConceptNetworkNode[], node: ConceptNetworkNode) => {
@@ -165,5 +166,27 @@ export function cnRemoveLinksOfNode(cn: ConceptNetwork, label: string): ConceptN
         ...cn,
         link,
     }
+    return res;
+}
+
+/**
+ * Decrement the coOcc of the link from `from` to `to` by one.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string}  from label of the from node
+ * @param {string}  to   label of the to node
+ * @returns {ConceptNetwork}    new ConceptNetwork
+ */
+export function cnDecrementLink(cn: ConceptNetwork, from: string, to: string): ConceptNetwork {
+    if (!cn.node || !cn.link) return cn;
+    const fromIndex = cn.node.findIndex(n => n.label === from);
+    const toIndex = cn.node.findIndex(n => n.label === to);
+    const linkIndex = cn.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    if (linkIndex === -1) return cn;
+    const res = Object.assign({}, cn);
+    const link = res.link[linkIndex];
+    link.coOcc -= 1;
+    if (link.coOcc === 0) res.link.splice(linkIndex, 1);
     return res;
 }
