@@ -265,3 +265,20 @@ export function cnGetNodeIndex(cn: ConceptNetwork, label: string): number {
     const nodeIndex = cn.node.findIndex(n => n.label === label);
     return nodeIndex;
 }
+
+/**
+ * Get the index of the link from `from` to `to`.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string}  from   label of the node from
+ * @param {string}  to     label of the node to
+ * @returns {number}       -1 when not found
+ */
+export function cnGetLinkIndex(cn: ConceptNetwork, from: string, to: string): number {
+    if (!cn.node || !cn.link) return -1;
+    const fromIndex = cn.node.findIndex(n => n.label === from);
+    const toIndex = cn.node.findIndex(n => n.label === to);
+    const linkIndex = cn.link.findIndex(l => l.from === fromIndex && l.to === toIndex);
+    return linkIndex;
+}
