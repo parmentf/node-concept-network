@@ -5,6 +5,7 @@ import {
     cnDecrementNode,
     cnGetLink,
     cnGetLinkIndex,
+    cnGetLinkIndex2,
     cnGetLinksFrom,
     cnGetLinksTo,
     cnGetNode,
@@ -481,4 +482,33 @@ describe('Concept Network', () => {
             }, 'a', 'z')).toEqual(-1);
         });
     });
+
+    describe('get link index from nodes index', () => {
+        it('should get link index', () => {
+            expect(cnGetLinkIndex2({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 0, 1)).toEqual(1);
+        });
+
+        it('should return -1 when node does not exist', () => {
+            expect(cnGetLinkIndex2({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 0, 100)).toEqual(-1);
+        });
+
+        it('should return even when no nodes', () => {
+            expect(cnGetLinkIndex2({
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 0, 1)).toEqual(1);
+        });
+
+        it('should return -1 when no links', () => {
+            expect(cnGetLinkIndex2({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+            }, 0, 1)).toEqual(-1);
+        });
+    });
+
 });
