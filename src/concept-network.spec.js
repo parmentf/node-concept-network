@@ -7,6 +7,7 @@ import {
     cnGetLinksFrom,
     cnGetLinksTo,
     cnGetNode,
+    cnGetNodeIndex,
     cnRemoveLink,
     cnRemoveLinksOfNode,
     cnRemoveNode
@@ -430,6 +431,25 @@ describe('Concept Network', () => {
             expect(cnGetLinksTo({
                 link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
             }, 'b')).toEqual([]);
+        });
+    });
+
+    describe('get node index', () => {
+        it('should get the second node', () => {
+            expect(cnGetNodeIndex({
+                node: [{ label: 'a', occ: 1}, { label: 'b', occ: 2}]
+            }, 'b')).toEqual(1);
+        });
+
+        it('should return -1 when node does not exist', () => {
+            expect(cnGetNodeIndex({
+                node: [{ label: 'a', occ: 1}, { label: 'b', occ: 2}]
+            }, 'Nonexistent')).toEqual(-1);
+        });
+
+        it('should return -1 when no nodes', () => {
+            expect(cnGetNodeIndex({
+            }, 'Nonexistent')).toEqual(-1);
         });
     });
 });

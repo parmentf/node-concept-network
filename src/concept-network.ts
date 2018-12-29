@@ -251,3 +251,17 @@ export function cnGetLinksTo(cn: ConceptNetwork, label: string): ConceptNetworkL
     const links = cn.link.filter(l => l.to === toIndex);
     return links;
 }
+
+/**
+ * Get the index of the node matching `label`.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string}  label   label of the node to get
+ * @returns {number}    -1 when not found
+ */
+export function cnGetNodeIndex(cn: ConceptNetwork, label: string): number {
+    if (!cn.node) return -1;
+    const nodeIndex = cn.node.findIndex(n => n.label === label);
+    return nodeIndex;
+}
