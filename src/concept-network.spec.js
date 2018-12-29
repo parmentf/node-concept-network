@@ -5,6 +5,7 @@ import {
     cnDecrementNode,
     cnGetLink,
     cnGetLinksFrom,
+    cnGetLinksTo,
     cnGetNode,
     cnRemoveLink,
     cnRemoveLinksOfNode,
@@ -389,6 +390,44 @@ describe('Concept Network', () => {
 
         it('should return no links when no nodes', () => {
             expect(cnGetLinksFrom({
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'b')).toEqual([]);
+        });
+    });
+
+    describe('get node to links', () => {
+        it('should get all links to node b', () => {
+            expect(cnGetLinksTo({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'b')).toEqual([{ from: 0, to: 1, coOcc: 2}]);
+        });
+
+        it('should get all links to node c', () => {
+            expect(cnGetLinksTo({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'c')).toEqual([
+                { from: 0, to: 2, coOcc: 1 },
+                { from: 1, to: 2, coOcc: 1}
+            ]);
+        });
+
+        it('should get no links to node a', () => {
+            expect(cnGetLinksTo({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a')).toEqual([]);
+        });
+
+        it('should return no links when no links', () => {
+            expect(cnGetLinksTo({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+            }, 'b')).toEqual([]);
+        });
+
+        it('should return no links when no nodes', () => {
+            expect(cnGetLinksTo({
                 link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
             }, 'b')).toEqual([]);
         });
