@@ -4,6 +4,7 @@ import {
     cnDecrementLink,
     cnDecrementNode,
     cnGetLink,
+    cnGetLinksFrom,
     cnGetNode,
     cnRemoveLink,
     cnRemoveLinksOfNode,
@@ -352,6 +353,44 @@ describe('Concept Network', () => {
             expect(cnGetLink({
                 node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
             }, 'a', 'z')).toEqual(undefined);
+        });
+    });
+
+    describe('get node from links', () => {
+        it('should get all links from node b', () => {
+            expect(cnGetLinksFrom({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'b')).toEqual([{ from: 1, to: 2, coOcc: 1}]);
+        });
+
+        it('should get all links from node a', () => {
+            expect(cnGetLinksFrom({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'a')).toEqual([
+                { from: 0, to: 2, coOcc: 1 },
+                { from: 0, to: 1, coOcc: 2}
+            ]);
+        });
+
+        it('should get no links from node c', () => {
+            expect(cnGetLinksFrom({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'c')).toEqual([]);
+        });
+
+        it('should return no links when no links', () => {
+            expect(cnGetLinksFrom({
+                node: [{ label: 'a', occ: 2 }, { label: 'b', occ: 2 }, { label: 'c', occ: 1 }],
+            }, 'b')).toEqual([]);
+        });
+
+        it('should return no links when no nodes', () => {
+            expect(cnGetLinksFrom({
+                link: [{ from: 0, to: 2, coOcc: 1 }, { from: 0, to: 1, coOcc: 2}, { from: 1, to: 2, coOcc: 1}]
+            }, 'b')).toEqual([]);
         });
     });
 });

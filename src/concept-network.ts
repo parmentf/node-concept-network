@@ -221,3 +221,18 @@ export function cnGetLink(cn: ConceptNetwork, from: string, to: string): Concept
     const link = cn.link.find(l => l.from === fromIndex && l.to === toIndex);
     return link;
 }
+
+/**
+ * Get the links from `label` node.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string}  label   label of the node from
+ * @returns {ConceptNetworkLink[]}
+ */
+export function cnGetLinksFrom(cn: ConceptNetwork, label: string): ConceptNetworkLink[] {
+    if (!cn.node || !cn.link) return [];
+    const fromIndex = cn.node.findIndex(n => n.label === label);
+    const links = cn.link.filter(l => l.from === fromIndex);
+    return links;
+}
