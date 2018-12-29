@@ -3,6 +3,7 @@ import {
     cnAddNode,
     cnDecrementLink,
     cnDecrementNode,
+    cnGetNode,
     cnRemoveLink,
     cnRemoveLinksOfNode,
     cnRemoveNode
@@ -298,6 +299,28 @@ describe('Concept Network', () => {
                 node: [{ label: 'a', occ: 3}, { label: 'b', occ: 2}],
                 link: [{ from: 0, to: 1, coOcc: 1}]
             });
+        });
+    });
+
+    describe('get node', () => {
+        it('should get the second node', () => {
+            expect(cnGetNode({
+                node: [{ label: 'a', occ: 1}, { label: 'b', occ: 2}]
+            }, 'b')).toEqual({
+                label: 'b',
+                occ: 2
+            });
+        });
+
+        it('should return undefined when node does not exist', () => {
+            expect(cnGetNode({
+                node: [{ label: 'a', occ: 1}, { label: 'b', occ: 2}]
+            }, 'Nonexistent')).toEqual(undefined);
+        });
+
+        it('should return undefined when no nodes', () => {
+            expect(cnGetNode({
+            }, 'Nonexistent')).toEqual(undefined);
         });
     });
 });

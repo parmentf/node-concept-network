@@ -190,3 +190,17 @@ export function cnDecrementLink(cn: ConceptNetwork, from: string, to: string): C
     if (link.coOcc === 0) res.link.splice(linkIndex, 1);
     return res;
 }
+
+/**
+ * Get the node matching `label`.
+ *
+ * @export
+ * @param {ConceptNetwork} cn
+ * @param {string}  label   label of the node to get
+ * @returns {ConceptNetworkNode|undefined}
+ */
+export function cnGetNode(cn: ConceptNetwork, label: string): ConceptNetworkNode|undefined {
+    if (!cn.node) return undefined;
+    const node = cn.node.find(n => n.label === label);
+    return node;
+}
