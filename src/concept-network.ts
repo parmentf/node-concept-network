@@ -9,7 +9,7 @@ interface ConceptNetworkLink {
     coOcc: number,
 }
 
-interface ConceptNetwork {
+export interface ConceptNetwork {
     node?: ConceptNetworkNode[],
     link?: ConceptNetworkLink[],
 }
