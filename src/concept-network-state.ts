@@ -74,3 +74,28 @@ export function cnsGetMaxActivationValue(cns: ConceptNetworkState, beginning: st
              0);
     return max;
 }
+
+/**
+ * Return an object associating nodes labels with their activation values, but
+ * only for labels starting with `beginning` and activation values greater or
+ * equal to `threshold`.
+ *
+ * @export
+ * @param {ConceptNetworkState} cns
+ * @param {string} [beginning='']
+ * @param {number} [threshold=95]
+ * @returns {{ [index: string]: number }}
+ */
+export function cnsGetActivatedTypedNodes(
+    cns: ConceptNetworkState,
+    beginning: string = '',
+    threshold: number = 95
+): { [index: string]: number } {
+    const nodes = Object.keys(cns)
+        .filter(key => key.startsWith(beginning))
+        .filter(label => cns[label] !== undefined)
+        .filter(label => cns[label].value >= threshold)
+        .reduce((nodes, label) => ({ ...nodes, [label]: cns[label].value }),
+            {});
+    return nodes;
+}

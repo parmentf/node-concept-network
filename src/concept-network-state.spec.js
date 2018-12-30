@@ -1,6 +1,7 @@
 import {
     cnsActivate,
     cnsGetActivationValue,
+    cnsGetActivatedTypedNodes,
     cnsGetMaxActivationValue,
     cnsGetOldActivationValue
 } from '../lib/concept-network-state';
@@ -102,6 +103,33 @@ describe('ConceptNetworkState', () => {
                     sb: { value: 20 },
                     ta: { value: 30 }
                 }, 's')).toEqual(20);
+            });
+        });
+
+        describe('get activated typed nodes', () => {
+            it('should return an empty object when no node is activated', () => {
+                expect(cnsGetActivatedTypedNodes({ a: { value: 50 }}))
+                    .toEqual({});
+            });
+
+            it('should return one-node-object when one node is activated', () => {
+                expect(cnsGetActivatedTypedNodes({ a: { value: 100 }}))
+                    .toEqual({ a: 100 });
+            });
+
+            it('should return two-nodes-object with two activated nodes', () => {
+                expect(cnsGetActivatedTypedNodes({ a: { value: 100 }, b: { value: 95 }}))
+                    .toEqual({ a: 100, b: 95 });
+            });
+
+            it('should return one-node-object of type s', () => {
+                expect(cnsGetActivatedTypedNodes({ a: { value: 100 }, sb: { value: 95 }}, 's'))
+                    .toEqual({ sb: 95 });
+            });
+
+            it('should return one-node-object where threshold = 96', () => {
+                expect(cnsGetActivatedTypedNodes({ a: { value: 100, sb: { value: 95 }}}, '', 96))
+                    .toEqual({ a: 100 });
             });
         });
     });
