@@ -3,7 +3,8 @@ import {
     cnsGetActivationValue,
     cnsGetActivatedTypedNodes,
     cnsGetMaxActivationValue,
-    cnsGetOldActivationValue
+    cnsGetOldActivationValue,
+    cnsSetActivationValue
 } from '../lib/concept-network-state';
 
 describe('ConceptNetworkState', () => {
@@ -131,6 +132,28 @@ describe('ConceptNetworkState', () => {
                 expect(cnsGetActivatedTypedNodes({ a: { value: 100, sb: { value: 95 }}}, '', 96))
                     .toEqual({ a: 100 });
             });
+        });
+    });
+
+    describe('set activation value', () => {
+        it('should set a zero', () => {
+            expect(cnsSetActivationValue({ a: { value: 100 }}, 'a', 0))
+                .toEqual({ a: { value: 0 }});
+        });
+
+        it('should set a 75', () => {
+            expect(cnsSetActivationValue({ a: { value: 100 }}, 'a', 75))
+                .toEqual({ a: { value: 75 }});
+        });
+
+        it('should create when no-existing', () => {
+            expect(cnsSetActivationValue({}, 'a', 75))
+                .toEqual({ a: { value: 75 }});
+        });
+
+        it('should create the state', () => {
+            expect(cnsSetActivationValue(undefined, 'a', 75))
+                .toEqual({ a: { value: 75 }});
         });
     });
 });

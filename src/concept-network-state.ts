@@ -99,3 +99,23 @@ export function cnsGetActivatedTypedNodes(
             {});
     return nodes;
 }
+
+/**
+ * Set the activation `value` of a node `label`.
+ *
+ * @export
+ * @param {ConceptNetworkState} cns
+ * @param {string} label
+ * @param {number} value
+ * @returns {ConceptNetworkState}
+ */
+export function cnsSetActivationValue(
+    cns: ConceptNetworkState = {},
+    label: string,
+    value: number
+): ConceptNetworkState {
+    return {
+        ...cns,
+        [label]: { value }
+    };
+}
