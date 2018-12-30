@@ -1,6 +1,7 @@
 import {
     cnsActivate,
     cnsGetActivationValue,
+    cnsGetMaxActivationValue,
     cnsGetOldActivationValue
 } from '../lib/concept-network-state';
 
@@ -82,5 +83,26 @@ describe('ConceptNetworkState', () => {
                 expect(cnsGetOldActivationValue(cns, 'z')).toEqual(undefined);
             });
         });
-    })
+
+        describe('get maximum activation value', () => {
+            it('should return 0 when no node activated', () => {
+                expect(cnsGetMaxActivationValue({})).toEqual(0);
+            });
+
+            it('should get the maximum activation value', () => {
+                expect(cnsGetMaxActivationValue({
+                    a: { value: 10 },
+                    b: { value: 20 }
+                })).toEqual(20);
+            });
+
+            it('should get tne maximum activation value for s tokens', () => {
+                expect(cnsGetMaxActivationValue({
+                    sa: { value: 10 },
+                    sb: { value: 20 },
+                    ta: { value: 30 }
+                }, 's')).toEqual(20);
+            });
+        });
+    });
 });

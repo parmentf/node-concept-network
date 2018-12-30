@@ -57,3 +57,20 @@ export function cnsGetOldActivationValue(cns: ConceptNetworkState, label: string
     if (!('old' in state)) return 0;
     return state.old;
 }
+
+/**
+ * Get the maximum activation value of all nodes which label start with
+ * `beginning`.
+ *
+ * @export
+ * @param {ConceptNetworkState} cns
+ * @param {string}              [beginning='']
+ * @returns {number}
+ */
+export function cnsGetMaxActivationValue(cns: ConceptNetworkState, beginning: string = ''): number {
+    const max = Object.keys(cns)
+        .filter(key => key.startsWith(beginning))
+        .reduce((max, currentLabel) => Math.max(max, cns[currentLabel].value),
+             0);
+    return max;
+}
