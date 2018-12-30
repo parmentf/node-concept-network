@@ -1,6 +1,7 @@
 import {
     cnsActivate,
-    cnsGetActivationValue
+    cnsGetActivationValue,
+    cnsGetOldActivationValue
 } from '../lib/concept-network-state';
 
 describe('ConceptNetworkState', () => {
@@ -60,8 +61,25 @@ describe('ConceptNetworkState', () => {
             });
 
             it('should get undefined for a non-existing activation value', () => {
-                const cns = { a: { old: 2} };
+                const cns = { a: { old: 2 } };
                 expect(cnsGetActivationValue(cns, 'a')).toEqual(undefined);
+            });
+        });
+
+        describe('old activation value', () => {
+            it('should get a zero activation value by default', () => {
+                const cns = { a: { value: 100 }};
+                expect(cnsGetOldActivationValue(cns, 'a')).toEqual(0);
+            });
+
+            it('should get the old activation value', () => {
+                const cns = { a: { old: 50, value: 0 }};
+                expect(cnsGetOldActivationValue(cns, 'a')).toEqual(50);
+            });
+
+            it('should return undefined for a non-existing old value', () => {
+                const cns = { a: { value: 59 }};
+                expect(cnsGetOldActivationValue(cns, 'z')).toEqual(undefined);
             });
         });
     })

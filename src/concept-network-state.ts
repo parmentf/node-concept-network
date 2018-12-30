@@ -5,7 +5,7 @@ interface ConceptNetworkNodeState {
     old?: number
 }
 
-interface ConceptNetworkState {
+export interface ConceptNetworkState {
     [index: string]: ConceptNetworkNodeState
 }
 
@@ -40,4 +40,20 @@ export function cnsGetActivationValue(cns: ConceptNetworkState, label: string)
     const state = cns[label];
     if (!('value' in state)) return undefined;
     return state.value;
+}
+
+/**
+ * Get the activation value of a node (which `label` is given)
+ *
+ * @export
+ * @param {ConceptNetworkState} cns
+ * @param {string} label
+ * @returns {number|undefined}
+ */
+export function cnsGetOldActivationValue(cns: ConceptNetworkState, label: string)
+    : number|undefined {
+    if (!(label in cns)) return undefined;
+    const state = cns[label];
+    if (!('old' in state)) return 0;
+    return state.old;
 }
