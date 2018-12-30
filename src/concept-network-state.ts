@@ -25,3 +25,19 @@ export function cnsActivate(
     newCNS[label] = { activationValue: 100 };
     return newCNS;
 }
+
+/**
+ * Get the activation value of a node (which `label` is given)
+ *
+ * @export
+ * @param {ConceptNetworkState} cns
+ * @param {string} label
+ * @returns {number|undefined}
+ */
+export function cnsGetActivationValue(cns: ConceptNetworkState, label: string)
+    : number|undefined {
+    if (!(label in cns)) return undefined;
+    const state = cns[label];
+    if (!('activationValue' in state)) return undefined;
+    return state.activationValue;
+}

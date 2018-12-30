@@ -1,5 +1,6 @@
 import {
-    cnsActivate
+    cnsActivate,
+    cnsGetActivationValue
 } from '../lib/concept-network-state';
 
 describe('ConceptNetworkState', () => {
@@ -40,4 +41,28 @@ describe('ConceptNetworkState', () => {
             });
         });
     });
+
+    describe('getters', () => {
+        describe('activation value', () => {
+            it('should get a zero activation value', () => {
+                const cns = { a: { activationValue: 0 }};
+                expect(cnsGetActivationValue(cns, 'a')).toEqual(0);
+            });
+
+            it('should get a 100 activation value', () => {
+                const cns = { a: { activationValue: 100 }};
+                expect(cnsGetActivationValue(cns, 'a')).toEqual(100);
+            });
+
+            it('should get undefined for a non-existing node', () => {
+                const cns = { a: { activationValue: 0 }};
+                expect(cnsGetActivationValue(cns, 'b')).toEqual(undefined);
+            });
+
+            it('should get undefined for a non-existing activation value', () => {
+                const cns = { a: { old: 2} };
+                expect(cnsGetActivationValue(cns, 'a')).toEqual(undefined);
+            });
+        });
+    })
 });
