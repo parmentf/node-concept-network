@@ -26,9 +26,11 @@ export function cnAddNode(cn: ConceptNetwork, label: string): ConceptNetwork {
     const res = Object.assign({}, cn);
     if (res.node) {
         const node = cnGetNode(res, label);
+        const nodeIndex = cnGetNodeIndex(res, label);
 
         if (node) {
             node.occ = node.occ + 1;
+            res.node[nodeIndex] = node;
         } else {
             res.node.push({ label, occ: 1 });
         }
@@ -56,10 +58,11 @@ export function cnDecrementNode(cn: ConceptNetwork, label: string): ConceptNetwo
         return res;
     }
     const node = cnGetNode(res, label);
+    const nodeIndex = cnGetNodeIndex(res, label);
     if (node) {
         node.occ = node.occ - 1;
+        res.node[nodeIndex] = node;
         if (node.occ === 0) {
-            const nodeIndex = cnGetNodeIndex(res, label);
             res.node.splice(nodeIndex, 1);
         }
     }
@@ -198,7 +201,8 @@ export function cnDecrementLink(cn: ConceptNetwork, from: string, to: string): C
 export function cnGetNode(cn: ConceptNetwork, label: string): ConceptNetworkNode|undefined {
     if (!cn.node) return undefined;
     const node = cn.node.find(n => n.label === label);
-    return node;
+    if (!node) return undefined;
+    return { ...node };
 }
 
 /**
@@ -215,7 +219,8 @@ export function cnGetLink(cn: ConceptNetwork, from: string, to: string): Concept
     const fromIndex = cnGetNodeIndex(cn, from);
     const toIndex = cnGetNodeIndex(cn, to);
     const link = cn.link.find(l => l.from === fromIndex && l.to === toIndex);
-    return link;
+    if (!link) return undefined;
+    return { ...link };
 }
 
 /**
@@ -278,7 +283,6 @@ export function cnGetLinkIndex(cn: ConceptNetwork, from: string, to: string): nu
     const linkIndex = cnGetLinkIndex2(cn, fromIndex, toIndex);
     return linkIndex;
 }
-
 
 /**
  * Get the index of the link from `fromIndex` to `toIndex`.

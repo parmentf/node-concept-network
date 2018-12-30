@@ -310,12 +310,15 @@ describe('Concept Network', () => {
 
     describe('get node', () => {
         it('should get the second node', () => {
-            expect(cnGetNode({
+            const cn = {
                 node: [{ label: 'a', occ: 1}, { label: 'b', occ: 2}]
-            }, 'b')).toEqual({
+            };
+            const node = cnGetNode(cn, 'b');
+            expect(node).toEqual({
                 label: 'b',
                 occ: 2
             });
+            expect(node).not.toBe(cn.node[1]);
         });
 
         it('should return undefined when node does not exist', () => {
@@ -510,5 +513,4 @@ describe('Concept Network', () => {
             }, 0, 1)).toEqual(-1);
         });
     });
-
 });
