@@ -155,5 +155,10 @@ describe('ConceptNetworkState', () => {
             expect(cnsSetActivationValue(undefined, 'a', 75))
                 .toEqual({ a: { value: 75 }});
         });
+
+        it('should keep the rest of the state', () => {
+            expect(cnsSetActivationValue({ a: { value: 75, old: 80 }}, 'a', 100))
+                .toEqual({ a: { value: 100, old: 80 }});
+        });
     });
 });

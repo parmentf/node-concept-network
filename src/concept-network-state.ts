@@ -114,8 +114,9 @@ export function cnsSetActivationValue(
     label: string,
     value: number
 ): ConceptNetworkState {
+    const oldNodeState = cns[label];
     return {
         ...cns,
-        [label]: { value }
+        [label]: { ...oldNodeState, value }
     };
 }
