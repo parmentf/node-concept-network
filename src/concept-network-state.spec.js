@@ -4,6 +4,7 @@ import {
     cnsGetActivatedTypedNodes,
     cnsGetMaxActivationValue,
     cnsGetOldActivationValue,
+    cnsPropagate,
     cnsSetActivationValue
 } from '../lib/concept-network-state';
 
@@ -159,6 +160,56 @@ describe('ConceptNetworkState', () => {
         it('should keep the rest of the state', () => {
             expect(cnsSetActivationValue({ a: { value: 75, old: 80 }}, 'a', 100))
                 .toEqual({ a: { value: 100, old: 80 }});
+        });
+    });
+
+    describe('propagate', () => {
+        it('should deactivate node without afferent links', () => {
+            const cn = {
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            };
+            const cns = {
+                a: { value: 100 }
+            };
+            const res = cnsPropagate(cn, cns);
+            expect(res.a.value).toBeLessThan(100);
+        });
+
+        it('should propagate activation value', () => {
+            const cn = {
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            };
+            const cns = {
+                a: { value: 100 }
+            };
+            const res = cnsPropagate(cn, cns);
+            expect(res.b.value).toBeGreaterThan(0);
+        });
+
+        it('should take decay into account', () => {
+            const cn = {
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            };
+            const cns = {
+                a: { value: 75 },
+                b: { value: 100 }
+            };
+            const res = cnsPropagate(cn, cns, { decay: 200 });
+            expect(res).toEqual({});
+        });
+
+        it('should use decay default value', () => {
+            const cn = {
+                node: [{ label: 'a', occ: 1 }, { label: 'b', occ: 1}],
+                link: [{ from: 0, to: 1, coOcc: 1}]
+            };
+            const cns = {
+            };
+            const res = cnsPropagate(cn, cns, { memoryPerf: 200 });
+            expect(res).toEqual({});
         });
     });
 });

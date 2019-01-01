@@ -26,8 +26,11 @@
         "pretest": "npm run build",
         "test": "jest --coverage"
     },
-    "dependencies": {},
+    "dependencies": {
+        "ramda": "0.26.1"
+    },
     "devDependencies": {
+        "@types/ramda": "0.25.46",
         "babel-core": "6.26.3",
         "babel-jest": "23.6.0",
         "babel-preset-env": "1.7.0",
