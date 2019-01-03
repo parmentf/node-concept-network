@@ -17,7 +17,7 @@
     "license": "MIT",
     "main": "index",
     "engines": {
-        "node": ">= 4.2.0"
+        "node": ">= 6.0.0"
     },
     "scripts": {
         "build:w": "tsc --watch",
