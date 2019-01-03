@@ -23,7 +23,7 @@ cns = cnsPropagate(cn, cns);
 
 which gives:
 
-```json
+```js
 { ECTOR: { value: 59.500004166625004, age: 1, old: 100 },
   knows: { value: 63.40844023393148, old: 0, age: 0 } }
 ```
