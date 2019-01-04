@@ -326,7 +326,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 See also [Releases](https://github.com/parmentf/node-concept-network/releases)
 
--   2081/12/27: version 1.2.2: Go back to synchronous ConceptNetwork
+-   2019/01/04: version 2.0.0: Change all API to something more functional
+-   2018/12/27: version 1.2.2: Go back to synchronous ConceptNetwork
 -   2015/11/28: version 1.2.1: Update dependencies versions
 -   2015/02/20: version 1.2.0: Add options to propagate()
 -   2015/02/07: version 1.1.0: Make getLink accept two parameters
