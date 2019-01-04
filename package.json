@@ -1,52 +1,49 @@
 {
-  "name": "concept-network",
-  "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
-  "version": "1.2.1",
-  "homepage": "https://github.com/parmentf/node-concept-network",
-  "author": {
-    "name": "François Parmentier",
-    "email": "francois.parmentier@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/parmentf/node-concept-network.git"
-  },
-  "bugs": {
-    "url": "https://github.com/parmentf/node-concept-network/issues"
-  },
-  "license": "MIT",
-  "main": "index",
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "scripts": {
-    "coverage-report": "cat ./coverage/lcov.info | codecov",
-    "doc": "docker -i lib -o doc -c monokai -s yes -I -u -x node_modules -x coverage -x doc -x config -w --extras fileSearch",
-    "test": "npm run lint && istanbul cover ./node_modules/mocha/bin/_mocha",
-    "test-s": "mocha --reporter spec",
-    "test-w": "mocha --growl --watch",
-    "lint": "jshint lib/"
-  },
-  "dependencies": {
-    "debug": "4.0.1"
-  },
-  "devDependencies": {
-    "codecov.io": "^0.1.6",
-    "docker": "1.0.0",
-    "ghooks": "^1.0.1",
-    "istanbul": "^0.4.1",
-    "jshint": "2.9.6",
-    "mocha": "5.2.0"
-  },
-  "keywords": [
-    "graph",
-    "weighted",
-    "propagation"
-  ],
-  "readmeFilename": "README.md",
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm test"
-    }
-  }
+    "name": "concept-network",
+    "description": "Concept Network is weighted directed graph, in which activation values are propagated.",
+    "version": "2.0.0",
+    "homepage": "https://github.com/parmentf/node-concept-network",
+    "author": {
+        "name": "François Parmentier",
+        "email": "francois.parmentier@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/parmentf/node-concept-network.git"
+    },
+    "bugs": {
+        "url": "https://github.com/parmentf/node-concept-network/issues"
+    },
+    "license": "MIT",
+    "main": "index",
+    "engines": {
+        "node": ">= 6.0.0"
+    },
+    "scripts": {
+        "build:w": "tsc --watch",
+        "build": "tsc",
+        "doc": "documentation readme src/** -f md --section=Functions",
+        "prepublish": "npm run build",
+        "pretest": "npm run build",
+        "test": "jest --coverage"
+    },
+    "dependencies": {
+        "ramda": "0.26.1"
+    },
+    "devDependencies": {
+        "@types/ramda": "0.25.46",
+        "babel-core": "6.26.3",
+        "babel-jest": "23.6.0",
+        "babel-preset-env": "1.7.0",
+        "babel-preset-stage-3": "6.24.1",
+        "documentation": "9.1.1",
+        "jest": "23.6.0",
+        "typescript": "3.2.2"
+    },
+    "keywords": [
+        "graph",
+        "weighted",
+        "propagation"
+    ],
+    "readmeFilename": "README.md"
 }
