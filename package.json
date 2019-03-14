@@ -38,7 +38,7 @@
         "babel-preset-stage-3": "6.24.1",
         "documentation": "9.3.1",
         "jest": "23.6.0",
-        "typescript": "3.2.2"
+        "typescript": "3.3.3333"
     },
     "keywords": [
         "graph",
